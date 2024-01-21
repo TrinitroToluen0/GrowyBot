@@ -18,6 +18,8 @@ module.exports = async (client) => {
             if ("data" in command && "execute" in command) {
                 client.commands.set(command.data.name, command);
                 commands.push(command.data.toJSON());
+            } else {
+                logger.warn(`Command "${command.data.name}" is missing required "data" or "execute" property. Skipping command.`);
             }
         }
     }

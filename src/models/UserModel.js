@@ -6,13 +6,16 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        serverId: {
+        guildId: {
             type: String,
             required: true,
         },
-        invitationLink: String,
-        money: {
+        inviterId: {
             type: String,
+            required: false,
+        },
+        money: {
+            type: Number,
             required: true,
             default: 0,
         },
@@ -20,6 +23,7 @@ const userSchema = new mongoose.Schema(
             type: Number,
             required: true,
             default: 0,
+            min: 0,
         },
     },
     { versionKey: false }

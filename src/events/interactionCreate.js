@@ -3,7 +3,7 @@ const logger = require("../utils/logger");
 
 module.exports = {
     name: Events.InteractionCreate,
-    async execute(interaction) {
+    async execute(client, interaction) {
         if (!interaction.isChatInputCommand()) return;
 
         const command = interaction.client.commands.get(interaction.commandName);
@@ -29,7 +29,10 @@ module.exports = {
 
             if (now < expirationTime) {
                 const expiredTimestamp = Math.round(expirationTime / 1_000);
-                return interaction.reply({ content: `Please wait, you are on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`, ephemeral: true });
+                return interaction.reply({
+                    content: `Please wait, you are on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`,
+                    ephemeral: true,
+                });
             }
         }
 

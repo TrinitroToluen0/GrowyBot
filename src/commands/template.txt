@@ -1,0 +1,14 @@
+const User = require("../../models/UserModel.js");
+const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } = require("discord.js");
+const { embedInfo, embedSuccess, embedError } = require("../../utils/colors.js");
+const { goldCoin, invitation } = require("../../utils/emojis.json");
+
+module.exports = {
+    category: "",
+    cooldown: 5,
+    data: new SlashCommandBuilder().setName("").setDescription("").setDMPermission(false).setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
+
+    async execute(interaction) {
+        let guild = await interaction.client.getGuildConfig(interaction.guild.id);
+    },
+};

@@ -2,13 +2,16 @@ const { MONGODB_URI } = require("./config.js");
 const mongoose = require("mongoose");
 const logger = require("./utils/logger");
 
-async function connectDB() {
+async function connectDB(uri) {
     try {
-        const db = await mongoose.connect(MONGODB_URI);
+        if (!uri) {
+            throw new Error("MongoDB URI must be provided.");
+        }
+        const db = await mongoose.connect(uri);
         logger.info(`Connected to database: ${db.connection.db.databaseName}`);
-    } catch (ERROR) {
+    } catch (error) {
         logger.error(error);
     }
 }
 
-connectDB();
+connectDB(MONGODB_URI);

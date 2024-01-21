@@ -23,30 +23,34 @@ class Logger {
         });
     }
 
-    log(level, color, message) {
+    log(level, color, ...messages) {
         this.updateTimestamp();
-        console.log(`[${color}${level}${c.reset}] ${c.bright}${c.gray}${this.timestamp}${c.reset} ${message}`);
-        this.writeToLogFile(message, level);
+        const fullMessages = messages.map((message) => (message instanceof Error ? message.stack : message));
+        const consoleMessages = DEV_MODE ? fullMessages : messages;
+        const messageToConsole = consoleMessages.join(" ");
+        const messageToFile = fullMessages.join(" ").replace(/\x1b\[[0-9;]*m/g, ""); // Limpia los códigos de escape
+        console.log(`[${color}${level}${c.reset}] ${c.bright}${c.gray}${this.timestamp}${c.reset} ${messageToConsole}`);
+        this.writeToLogFile(messageToFile, level);
     }
 
-    info(message) {
-        this.log("INFO", c.cyan, message);
+    info(...messages) {
+        this.log("INFO", c.cyan, ...messages);
     }
 
-    error(message) {
-        this.log("ERROR", c.red, message);
+    error(...messages) {
+        this.log("ERROR", c.red, ...messages);
     }
 
-    warn(message) {
-        this.log("WARN", c.yellow, message);
+    warn(...messages) {
+        this.log("WARN", c.yellow, ...messages);
     }
 
-    debug(message) {
-        this.log("DEBUG", c.magenta, message);
+    debug(...messages) {
+        this.log("DEBUG", c.magenta, ...messages);
     }
 
-    http(message) {
-        this.log("HTTP", c.green, message);
+    http(...messages) {
+        this.log("HTTP", c.green, ...messages);
     }
 }
 

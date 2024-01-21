@@ -2,17 +2,18 @@ const mongoose = require("mongoose");
 
 const shopSchema = new mongoose.Schema(
     {
-        articleId: {
+        productName: {
             type: String,
             required: true,
         },
-        serverId: {
+        guildId: {
             type: String,
             required: true,
         },
         price: {
             type: Number,
             required: true,
+            min: 0,
         },
     },
     { versionkey: false }
