@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, version } = require("discord.js");
-const { embedInfo } = require("../../utils/colors.js");
+const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField, version, Colors } = require("discord.js");
 const emojis = require("../../utils/emojis.json");
 
 const uptime = Math.floor(Date.now() / 1000 - process.uptime());
@@ -7,13 +6,14 @@ const uptime = Math.floor(Date.now() / 1000 - process.uptime());
 module.exports = {
     category: "utility",
     cooldown: 5,
+    botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
     data: new SlashCommandBuilder().setName("botinfo").setDescription("Shows bot statistics and information.").setDMPermission(false),
     async execute(interaction) {
         const cpuUsage = process.cpuUsage();
         const cpuUsagePercent = ((cpuUsage.user + cpuUsage.system) / 1000000).toFixed(2);
 
         const embed = new EmbedBuilder()
-            .setColor(embedInfo)
+            .setColor(Colors.Blue)
             .setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.avatarURL() })
             .addFields(
                 { name: `${emojis.uptime} Uptime`, value: `<t:${uptime}:R>`, inline: false },

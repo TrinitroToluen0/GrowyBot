@@ -1,11 +1,11 @@
 const User = require("../../models/UserModel.js");
-const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } = require("discord.js");
-const { embedInfo, embedSuccess, embedError } = require("../../utils/colors.js");
+const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Colors } = require("discord.js");
 const { goldCoin, invitation } = require("../../utils/emojis.json");
 
 module.exports = {
     category: "",
     cooldown: 5,
+    botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
     data: new SlashCommandBuilder().setName("").setDescription("").setDMPermission(false).setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
     async execute(interaction) {

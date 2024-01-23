@@ -1,10 +1,10 @@
-const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } = require("discord.js");
-const { embedSuccess, embedError } = require("../../utils/colors.js");
+const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Colors } = require("discord.js");
 const { goldCoin, nitro } = require("../../utils/emojis.json");
 
 module.exports = {
     category: "boostrewarder",
     cooldown: 5,
+    botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
     data: new SlashCommandBuilder()
         .setName("boostrewarder-setreward")
         .setDescription("Sets the reward amount for boosting the server.")
@@ -15,7 +15,7 @@ module.exports = {
         let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
 
         if (!guildConfig.boostRewarderEnabled) {
-            const embed = new EmbedBuilder().setColor(embedError).setDescription("The boost rewarder module is disabled. Enable it with the command `/boostrewarder-enable`");
+            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("The boost rewarder module is disabled. Enable it with the command `/boostrewarder-enable`");
             return interaction.reply({ embeds: [embed] });
         }
 
@@ -23,7 +23,7 @@ module.exports = {
         guildConfig.boostReward = boostReward;
         await guildConfig.save();
 
-        const embed = new EmbedBuilder().setColor(embedSuccess).setDescription(`${nitro} | The boost reward has ben set to ${goldCoin} \`${boostReward}\``);
+        const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`${nitro} | The boost reward has ben set to ${goldCoin} \`${boostReward}\``);
 
         await interaction.reply({ embeds: [embed] });
     },

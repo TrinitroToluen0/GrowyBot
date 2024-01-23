@@ -17,6 +17,7 @@
         "node-cron": "^3.0.3"
     },
     "devDependencies": {
+        "@faker-js/faker": "^8.3.1",
         "eslint": "^8.56.0",
         "nodemon": "^3.0.2"
     }

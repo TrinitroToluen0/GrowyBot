@@ -1,11 +1,14 @@
 const { Events } = require("discord.js");
 const User = require("../models/UserModel");
 const logger = require("../utils/logger");
+const sendMessage = require("../helpers/sendMessage.js");
 
 module.exports = {
     name: Events.GuildMemberRemove,
     async execute(client, member) {
         try {
+            if (member.user.id === client.user.id) return;
+            if (member.partial) member = await member.fetch();
             const guildConfig = await client.getGuildConfig(member.guild.id);
             let welcomeChannel;
 
@@ -38,7 +41,6 @@ module.exports = {
             // Check if the inviter is the bot (official guild invitation)
             if (user.inviterId === client.user.id) {
                 if (welcomeChannel) sendMessage(welcomeChannel, `User <@${member.user.id}> left. They had joined using the official guild invitation.`);
-                return;
             }
 
             // Decrement the inviter's invitation and money count

@@ -1,5 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } = require("discord.js");
-const { embedSuccess, embedInfo } = require("../../utils/colors.js");
+const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Colors } = require("discord.js");
 
 module.exports = {
     category: "boostrewarder",
@@ -17,7 +16,7 @@ module.exports = {
 
         // Check if the current state is the same as the one being applied
         if (guildConfig.boostRewarderEnabled === enabled) {
-            const embed = new EmbedBuilder().setColor(embedInfo).setDescription(`The boost rewarder module is already ${enabled ? "enabled" : "disabled"}.`);
+            const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`The boost rewarder module is already ${enabled ? "enabled" : "disabled"}.`);
             return await interaction.reply({ embeds: [embed] });
         }
 
@@ -27,7 +26,7 @@ module.exports = {
 
         // Send a confirmation message
         const embed = new EmbedBuilder()
-            .setColor(embedSuccess)
+            .setColor(Colors.Green)
             .setDescription(`The boost rewarder module has been ${guildConfig.boostRewarderEnabled ? "enabled" : "disabled"}.`);
         await interaction.reply({ embeds: [embed] });
     },

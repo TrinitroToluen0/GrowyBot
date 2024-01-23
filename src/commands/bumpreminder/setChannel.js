@@ -1,5 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, ChannelType } = require("discord.js");
-const { embedInfo, embedSuccess, embedError } = require("../../utils/colors.js");
+const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, ChannelType, Colors } = require("discord.js");
 
 module.exports = {
     category: "bumpreminder",
@@ -16,17 +15,22 @@ module.exports = {
         let channel = interaction.options.getChannel("channel") || interaction.channel;
 
         if (!guildConfig.bumpReminderEnabled) {
-            const embed = new EmbedBuilder().setColor(embedError).setDescription("The bump reminder module is disabled. Enable it with the command `/bumpreminder-enable`");
+            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("The bump reminder module is disabled. Enable it with the command `/bumpreminder-enable`");
             return interaction.reply({ embeds: [embed] });
         }
 
         if (channel && channel.type !== ChannelType.GuildText) {
-            const embed = new EmbedBuilder().setColor(embedError).setDescription("The channel must be a valid text channel.");
+            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("The channel must be a valid text channel.");
+            return interaction.reply({ embeds: [embed] });
+        }
+
+        if (!client.canSendMessages(channel)) {
+            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription(`Make sure I have permissions to view and send messages to <#${channel.id}>.`);
             return interaction.reply({ embeds: [embed] });
         }
 
         if (channel.id === guildConfig.bumpReminderChannel) {
-            const embed = new EmbedBuilder().setColor(embedInfo).setDescription(`The bump reminder channel is already <#${channel.id}>.`);
+            const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`The bump reminder channel is already <#${channel.id}>.`);
             return await interaction.reply({ embeds: [embed] });
         }
 
@@ -35,7 +39,7 @@ module.exports = {
         await guildConfig.save();
 
         // Send a confirmation message
-        const embed = new EmbedBuilder().setColor(embedSuccess).setDescription(`The bump reminder channel has been set to <#${guildConfig.bumpReminderChannel}>.`);
+        const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The bump reminder channel has been set to <#${guildConfig.bumpReminderChannel}>.`);
         await interaction.reply({ embeds: [embed] });
     },
 };

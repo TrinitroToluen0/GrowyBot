@@ -1,5 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } = require("discord.js");
-const { embedSuccess, embedInfo } = require("../../utils/colors.js");
+const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Colors } = require("discord.js");
 
 module.exports = {
     category: "welcome",
@@ -17,7 +16,7 @@ module.exports = {
 
         // Check if the current state is the same as the one being applied
         if (guildConfig.welcomeEnabled === enabled) {
-            const embed = new EmbedBuilder().setColor(embedInfo).setDescription(`The welcome messages module is already ${enabled ? "enabled" : "disabled"}.`);
+            const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`The welcome messages module is already ${enabled ? "enabled" : "disabled"}.`);
             return await interaction.reply({ embeds: [embed] });
         }
 
@@ -26,7 +25,7 @@ module.exports = {
         await guildConfig.save();
 
         // Send a confirmation message
-        const embed = new EmbedBuilder().setColor(embedSuccess).setDescription(`The welcome messages module has been ${guildConfig.welcomeEnabled ? "enabled" : "disabled"}.`);
+        const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The welcome messages module has been ${guildConfig.welcomeEnabled ? "enabled" : "disabled"}.`);
         await interaction.reply({ embeds: [embed] });
     },
 };

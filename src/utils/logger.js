@@ -29,7 +29,7 @@ class Logger {
         const consoleMessages = DEV_MODE ? fullMessages : messages;
         const messageToConsole = consoleMessages.join(" ");
         const messageToFile = fullMessages.join(" ").replace(/\x1b\[[0-9;]*m/g, ""); // Limpia los códigos de escape
-        console.log(`[${color}${level}${c.reset}] ${c.bright}${c.gray}${this.timestamp}${c.reset} ${messageToConsole}`);
+        console.log(`${c.reset}[${color}${level}${c.reset}] ${c.bright}${c.gray}${this.timestamp}${c.reset} ${messageToConsole}`);
         this.writeToLogFile(messageToFile, level);
     }
 

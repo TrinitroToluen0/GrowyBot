@@ -1,5 +1,4 @@
-const { EmbedBuilder, PermissionsBitField, SlashCommandBuilder } = require("discord.js");
-const { embedInfo, embedError } = require("../../utils/colors.js");
+const { EmbedBuilder, PermissionsBitField, SlashCommandBuilder, Colors } = require("discord.js");
 
 module.exports = {
     category: "invites",
@@ -12,13 +11,13 @@ module.exports = {
         const isAdmin = interaction.member.permissions.has(PermissionsBitField.Flags.Administrator);
 
         if (!guild.invitationCode) {
-            embed.setColor(embedError);
+            embed.setColor(Colors.Red);
             embed.setDescription(`The official guild invitation has not been set yet.${isAdmin ? " You can set it with the command `/invitation set`." : ""}`);
         } else {
-            embed.setColor(embedInfo);
+            embed.setColor(Colors.Blue);
             embed.setDescription(`The official guild invitation is https://discord.gg/${guild.invitationCode}`);
         }
 
-        await interaction.reply({ embeds: [embed], ephemeral: isAdmin });
+        await interaction.reply({ embeds: [embed], ephemeral: isAdmin && !guild.invitationCode });
     },
 };

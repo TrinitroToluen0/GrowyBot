@@ -1,8 +1,8 @@
-const { Events, version: discordVersion } = require("discord.js");
+const { Events, version: discordVersion, PermissionsBitField } = require("discord.js");
 const { ACTIVITY_NAME, ACTIVITY_TYPE } = require("../config.js");
 const logger = require("../utils/logger.js");
 const Guild = require("../models/GuildModel.js");
-const sendMessage = require("../helpers/sendMessage.js");
+const checkBotPermissions = require("../helpers/checkBotPermissions.js");
 
 module.exports = {
     name: Events.ClientReady,
@@ -25,14 +25,13 @@ const cacheGuilds = async (client) => {
 const cacheInvites = async (client) => {
     for (const guild of client.guilds.cache.values()) {
         try {
+            if (checkBotPermissions(guild, PermissionsBitField.Flags.ManageGuild) !== true) continue;
             const invites = await guild.invites.fetch();
             const codeUses = new Map();
-            invites.each((inv) => {
-                codeUses.set(inv.code, inv.uses);
-            });
+            invites.each((inv) => codeUses.set(inv.code, inv.uses));
             client.invites.set(guild.id, codeUses);
-        } catch (e) {
-            logger.error(e);
+        } catch (error) {
+            logger.error("cacheInvites failed:", error);
         }
     }
 };

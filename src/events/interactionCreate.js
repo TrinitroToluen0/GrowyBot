@@ -1,5 +1,6 @@
-const { Events, Collection } = require("discord.js");
+const { Events, Collection, EmbedBuilder, PermissionsBitField, Colors } = require("discord.js");
 const logger = require("../utils/logger");
+const checkBotPermissions = require("../helpers/checkBotPermissions.js");
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -11,6 +12,24 @@ module.exports = {
         if (!command) {
             logger.error(`No command matching ${interaction.commandName} was found.`);
             return;
+        }
+
+        // Checkear permisos
+        if (command.botPermissions && command.botPermissions.length > 0) {
+            const missingPermissions = await checkBotPermissions(interaction.guild, command.botPermissions);
+            const isAdmin = interaction.member.permissions.has(PermissionsBitField.Flags.Administrator);
+
+            if (missingPermissions !== true) {
+                const embed = new EmbedBuilder()
+                    .setDescription(
+                        `I can't run this command because I am missing some important permissions. I need the following permissions: ${missingPermissions.join(", ")}
+                        
+                        ${isAdmin ? "Go to `Server settings > Roles > Growy` and enable them." : ""}`
+                    )
+                    .setColor(Colors.Red);
+                interaction.reply({ embeds: [embed], ephemeral: isAdmin });
+                return;
+            }
         }
 
         const { cooldowns } = interaction.client;

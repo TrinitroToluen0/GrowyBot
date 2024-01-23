@@ -9,7 +9,7 @@ module.exports = {
             guildConfig.botPresent = false;
             await guildConfig.save();
             client.guildConfigs.delete(guild.id);
-            logger.info(`Bot was kicked from the guild "${guild.name}"`);
+            logger.info(`Bot was removed from the guild "${guild.name}"`);
         } catch (error) {
             logger.error("OnGuildDelete error: ", error);
         }

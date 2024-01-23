@@ -1,10 +1,10 @@
-const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } = require("discord.js");
-const { embedSuccess } = require("../../utils/colors.js");
-const { nitro, goldCoin } = require("../../utils/emojis.json");
+const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Colors } = require("discord.js");
+const { goldCoin } = require("../../utils/emojis.json");
 
 module.exports = {
     category: "bumpreminder",
     cooldown: 5,
+    botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
     data: new SlashCommandBuilder()
         .setName("bumpreminder-setreward")
         .setDescription("Sets the reward amount for bumping the server.")
@@ -24,7 +24,7 @@ module.exports = {
         await guildConfig.save();
         interaction.client.guildConfigConfigs.set(interaction.guild.id, guildConfig);
 
-        const embed = new EmbedBuilder().setColor(embedSuccess).setDescription(`The bump reward has ben set to ${goldCoin} \`${bumpReward}\``);
+        const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The bump reward has ben set to ${goldCoin} \`${bumpReward}\``);
 
         await interaction.reply({ embeds: [embed] });
     },

@@ -1,5 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, ChannelType } = require("discord.js");
-const { embedInfo, embedSuccess, embedError } = require("../../utils/colors.js");
+const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, ChannelType, Colors } = require("discord.js");
 
 module.exports = {
     category: "welcome",
@@ -16,17 +15,22 @@ module.exports = {
         let channel = interaction.options.getChannel("channel") || interaction.channel;
 
         if (!guildConfig.welcomeEnabled) {
-            const embed = new EmbedBuilder().setColor(embedError).setDescription("The welcome messages module is disabled. Enable it with the command `/welcome-enable`");
+            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("The welcome messages module is disabled. Enable it with the command `/welcome-enable`");
             return interaction.reply({ embeds: [embed] });
         }
 
         if (channel && channel.type !== ChannelType.GuildText) {
-            const embed = new EmbedBuilder().setColor(embedError).setDescription("The channel must be a valid text channel.");
+            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("The channel must be a valid text channel.");
+            return interaction.reply({ embeds: [embed] });
+        }
+
+        if (!client.canSendMessages(channel)) {
+            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription(`Make sure I have permissions to view and send messages to <#${channel.id}>.`);
             return interaction.reply({ embeds: [embed] });
         }
 
         if (channel.id === guildConfig.welcomeChannel) {
-            const embed = new EmbedBuilder().setColor(embedInfo).setDescription(`The welcome messages channel is already <#${channel.id}>.`);
+            const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`The welcome messages channel is already <#${channel.id}>.`);
             return await interaction.reply({ embeds: [embed] });
         }
 
@@ -35,7 +39,7 @@ module.exports = {
         await guildConfig.save();
 
         // Send a confirmation message
-        const embed = new EmbedBuilder().setColor(embedSuccess).setDescription(`The welcome messages channel has ben set to <#${guildConfig.welcomeChannel}>.`);
+        const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The welcome messages channel has ben set to <#${guildConfig.welcomeChannel}>.`);
         await interaction.reply({ embeds: [embed] });
     },
 };

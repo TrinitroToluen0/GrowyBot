@@ -1,5 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } = require("discord.js");
-const { embedSuccess, embedInfo } = require("../../utils/colors.js");
+const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Colors } = require("discord.js");
 
 module.exports = {
     category: "bumpreminder",
@@ -17,7 +16,7 @@ module.exports = {
 
         // Check if the current state is the same as the one being applied
         if (guildConfig.bumpReminderEnabled === enabled) {
-            const embed = new EmbedBuilder().setColor(embedInfo).setDescription(`The bump reminder module is already ${enabled ? "enabled" : "disabled"}.`);
+            const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`The bump reminder module is already ${enabled ? "enabled" : "disabled"}.`);
             return await interaction.reply({ embeds: [embed] });
         }
 
@@ -27,7 +26,7 @@ module.exports = {
 
         // Send a confirmation message
         const embed = new EmbedBuilder()
-            .setColor(embedSuccess)
+            .setColor(Colors.Green)
             .setDescription(`The bump reminder module has been ${guildConfig.bumpReminderEnabled ? "enabled" : "disabled"}.`);
         await interaction.reply({ embeds: [embed] });
     },

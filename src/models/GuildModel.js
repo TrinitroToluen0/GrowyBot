@@ -5,6 +5,7 @@ const guildSchema = new mongoose.Schema(
         guildId: {
             type: String,
             required: true,
+            unique: true,
         },
         botPresent: {
             type: Boolean,
@@ -21,7 +22,7 @@ const guildSchema = new mongoose.Schema(
         invitationReward: {
             type: Number,
             required: true,
-            default: 0,
+            default: 20,
             min: 0,
         },
         bumpReminderEnabled: {
@@ -33,7 +34,7 @@ const guildSchema = new mongoose.Schema(
         bumpReward: {
             type: Number,
             required: true,
-            default: 0,
+            default: 5,
             min: 0,
         },
         boostRewarderEnabled: {
@@ -45,7 +46,7 @@ const guildSchema = new mongoose.Schema(
         boostReward: {
             type: Number,
             required: true,
-            default: 0,
+            default: 5,
             min: 0,
         },
         interchatChannels: [String],

@@ -1,10 +1,18 @@
 require("./db.js");
 const { BOT_TOKEN } = require("./config.js");
-const { Client, Collection, GatewayIntentBits } = require("discord.js");
+const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
 require("./utils/errorHandler.js");
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildInvites,
+        GatewayIntentBits.GuildMessages,
+        // GatewayIntentBits.MessageContent,
+        // GatewayIntentBits.DirectMessages,
+    ],
+    partials: [/*Partials.Channel,*/ Partials.GuildMember],
 });
 
 global.client = client;
@@ -39,7 +47,7 @@ eventHandler(client);
 client.login(BOT_TOKEN);
 
 // Cada 24 horas, rewardear a los boosters.
-const { rewardBoosters } = require("./daily.js");
+const rewardBoosters = require("./helpers/rewardBoosters.js");
 const cron = require("node-cron");
 cron.schedule("0 0 * * *", () => {
     rewardBoosters(client);
