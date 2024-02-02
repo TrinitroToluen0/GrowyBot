@@ -5,22 +5,19 @@ module.exports = {
     cooldown: 5,
     data: new SlashCommandBuilder()
         .setName("bumpreminder-setchannel")
-        .setDescription("Sets a channel that will unlock every 2 hours to remind @here to bump the guild for a reward.")
+        .setDescription("Sets a channel to remind your users to bump your server.")
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
-        .addChannelOption((option) => option.setName("channel").setDescription("The channel to display the reminder messages.")),
+        .addChannelOption((option) => option.setName("channel").setDescription("The channel to display the reminder messages.").addChannelTypes(ChannelType.GuildText)),
 
     async execute(interaction) {
         let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
         let channel = interaction.options.getChannel("channel") || interaction.channel;
 
         if (!guildConfig.bumpReminderEnabled) {
-            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("The bump reminder module is disabled. Enable it with the command `/bumpreminder-enable`");
-            return interaction.reply({ embeds: [embed] });
-        }
-
-        if (channel && channel.type !== ChannelType.GuildText) {
-            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("The channel must be a valid text channel.");
+            const embed = new EmbedBuilder()
+                .setColor(Colors.Red)
+                .setDescription("The bump reminder module is disabled. Enable it with the command </bumpreminder-enable:1201445092129517611>");
             return interaction.reply({ embeds: [embed] });
         }
 

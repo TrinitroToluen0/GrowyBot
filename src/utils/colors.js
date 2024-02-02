@@ -1,8 +1,4 @@
 const colors = {
-    embedInfo: "#0099ff",
-    embedError: "#ff6b6b",
-    embedSuccess: "#51cf66",
-
     reset: "\x1b[0m",
     bright: "\x1b[1m",
     dim: "\x1b[2m",

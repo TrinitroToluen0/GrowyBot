@@ -1,13 +1,19 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField, version, Colors } = require("discord.js");
 const emojis = require("../../utils/emojis.json");
+const { DEV_USER_ID } = require("../../config.js");
 
 const uptime = Math.floor(Date.now() / 1000 - process.uptime());
 
 module.exports = {
-    category: "utility",
+    category: "dev-only",
+    devOnly: true,
     cooldown: 5,
     botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
-    data: new SlashCommandBuilder().setName("botinfo").setDescription("Shows bot statistics and information.").setDMPermission(false),
+    data: new SlashCommandBuilder()
+        .setName("botinfo")
+        .setDescription("Shows bot statistics and information.")
+        .setDMPermission(false)
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
     async execute(interaction) {
         const cpuUsage = process.cpuUsage();
         const cpuUsagePercent = ((cpuUsage.user + cpuUsage.system) / 1000000).toFixed(2);
@@ -21,7 +27,8 @@ module.exports = {
                 { name: `:books: Librería`, value: "```" + `Discord.JS ${version}` + "```", inline: true },
                 { name: `${emojis.ping} Ping`, value: "```" + `${Math.round(interaction.client.ws.ping)}ms` + "```", inline: true },
                 { name: `${emojis.ram} Uso de RAM`, value: "```" + `${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)}MB` + "```", inline: true },
-                { name: `${emojis.node} Versión de Node.js`, value: "```" + process.version + "```", inline: true }
+                { name: `${emojis.node} Versión de Node.js`, value: "```" + process.version + "```", inline: true },
+                { name: `${emojis.server} Servidores`, value: "```" + `${interaction.client.guilds.cache.size}` + "```", inline: true }
             )
             .setTimestamp();
 

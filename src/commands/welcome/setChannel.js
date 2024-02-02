@@ -8,7 +8,7 @@ module.exports = {
         .setDescription("Sets a channel to display the welcome messages.")
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
-        .addChannelOption((option) => option.setName("channel").setDescription("The channel to display the welcome messages.")),
+        .addChannelOption((option) => option.setName("channel").setDescription("The channel to display the welcome messages.").addChannelTypes(ChannelType.GuildText)),
 
     async execute(interaction) {
         let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
@@ -16,11 +16,6 @@ module.exports = {
 
         if (!guildConfig.welcomeEnabled) {
             const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("The welcome messages module is disabled. Enable it with the command `/welcome-enable`");
-            return interaction.reply({ embeds: [embed] });
-        }
-
-        if (channel && channel.type !== ChannelType.GuildText) {
-            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("The channel must be a valid text channel.");
             return interaction.reply({ embeds: [embed] });
         }
 

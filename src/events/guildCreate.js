@@ -8,7 +8,7 @@ module.exports = {
     async execute(client, guild) {
         try {
             logger.info(`${green}Bot was added to the guild "${guild.name}"`);
-            let guildConfig = await client.getGuildConfig(guild.id);
+            const guildConfig = await client.getGuildConfig(guild.id);
             guildConfig.botPresent = true;
             await guildConfig.save();
             await checkPerms(guild);
@@ -23,11 +23,13 @@ async function checkPerms(guild) {
         throw new Error("The provided guild is not a valid instance of Guild.");
     }
     const requiredPermissions = [
-        PermissionsBitField.Flags.SendMessages,
+        PermissionsBitField.Flags.UseExternalEmojis,
         PermissionsBitField.Flags.ManageGuild,
         PermissionsBitField.Flags.CreateInstantInvite,
+        PermissionsBitField.Flags.SendMessages,
+        PermissionsBitField.Flags.ManageWebhooks,
+        PermissionsBitField.Flags.ManageChannels,
         PermissionsBitField.Flags.MentionEveryone,
-        PermissionsBitField.Flags.UseExternalEmojis,
     ];
 
     // Checkear permisos

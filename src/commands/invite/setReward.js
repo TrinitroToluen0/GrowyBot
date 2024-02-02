@@ -6,7 +6,7 @@ module.exports = {
     cooldown: 5,
     botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
     data: new SlashCommandBuilder()
-        .setName("invite-setreward")
+        .setName("invites-setreward")
         .setDescription("Sets the reward amount for inviting users to the guild.")
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)

@@ -21,14 +21,13 @@ async function getInviterId(member) {
         return user.inviterId;
     }
 
-    if (checkBotPermissions(guild, PermissionsBitField.Flags.ManageGuild) !== true) {
+    if ((await checkBotPermissions(member.guild, PermissionsBitField.Flags.ManageGuild)) !== true) {
+        logger.debug(`Cannot find the inviter of ${member.user.username} because of missing permissions.`);
         return null;
     }
 
     const cachedInvites = client.invites.get(member.guild.id);
-    let fetchedInvites;
-
-    fetchedInvites = await member.guild.invites.fetch();
+    let fetchedInvites = await member.guild.invites.fetch();
 
     const usedInvite = fetchedInvites.find((inv) => cachedInvites.get(inv.code) < inv.uses);
     if (!usedInvite) {

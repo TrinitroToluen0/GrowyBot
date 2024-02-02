@@ -2,19 +2,19 @@ const { EmbedBuilder, Colors } = require("discord.js");
 const sendMessage = require("../helpers/sendMessage.js");
 const User = require("../models/UserModel.js");
 
-async function welcomeMember(member, inviterId) {
+async function farewellMember(member, inviterId) {
     const { client } = member;
     const guildConfig = await client.getGuildConfig(member.guild.id);
     const inviter = await User.findOne({ userId: inviterId, guildId: member.guild.id });
 
-    const greetings = {
-        official: `<@${member.user.id}> joined using the official guild invitation.`,
-        invitedBy: inviter ? `<@${member.user.id}> was invited by <@${inviter.userId}> who now has ${inviter.invitations} invitations.` : "",
-        inviterNotFoundInDb: `<@${member.user.id}> was invited by <@${inviterId}>`,
-        unknown: `<@${member.user.id}> joined.`,
+    const farewells = {
+        official: `<@${member.user.id}> left. They had joined using the official guild invitation.`,
+        invitedBy: inviter ? `<@${member.user.id}> left. They were invited by <@${inviter.userId}> who now has ${inviter.invitations} invitations.` : "",
+        inviterNotFoundInDb: `<@${member.user.id}> left. They were invited by <@${inviterId}>`,
+        unknown: `<@${member.user.id}> left.`,
     };
 
-    const embed = new EmbedBuilder().setColor(Colors.Green).setImage(member.displayAvatarURL({ format: "png", dynamic: true, size: 2048 }));
+    const embed = new EmbedBuilder().setColor(Colors.Red).setImage(member.displayAvatarURL({ format: "png", dynamic: true, size: 2048 }));
 
     if (!guildConfig.welcomeChannel) {
         return false;
@@ -28,17 +28,17 @@ async function welcomeMember(member, inviterId) {
     }
 
     if (inviterId && !inviter) {
-        embed.setDescription(greetings.inviterNotFoundInDb);
+        embed.setDescription(farewells.inviterNotFoundInDb);
     } else if (inviterId === client.user.id) {
-        embed.setDescription(greetings.official);
+        embed.setDescription(farewells.official);
     } else if (inviter && inviter.userId && inviter.invitations) {
-        embed.setDescription(greetings.invitedBy);
+        embed.setDescription(farewells.invitedBy);
     } else {
-        embed.setDescription(greetings.unknown);
+        embed.setDescription(farewells.unknown);
     }
 
     await sendMessage(channel, { embeds: [embed] });
     return true;
 }
 
-module.exports = welcomeMember;
+module.exports = farewellMember;

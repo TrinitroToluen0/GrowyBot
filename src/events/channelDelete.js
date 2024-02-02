@@ -27,6 +27,11 @@ module.exports = {
                 updated = true;
             }
 
+            if (guildConfig.interchatChannel === channel.id) {
+                guildConfig.interchatChannel = null;
+                updated = true;
+            }
+
             // Save the config in the database and the cache only if there was an update
             if (updated) {
                 await guildConfig.save();

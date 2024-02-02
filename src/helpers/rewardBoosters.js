@@ -1,10 +1,9 @@
-const { EmbedBuilder, Colors, PermissionFlagsBits, PermissionsBitField } = require("discord.js");
+const { EmbedBuilder, Colors } = require("discord.js");
 const Guild = require("../models/GuildModel.js");
 const User = require("../models/UserModel.js");
 const { nitro, goldCoin } = require("../utils/emojis.json");
 const logger = require("../utils/logger.js");
 const sendMessage = require("../helpers/sendMessage.js");
-const checkBotPermissions = require("./checkBotPermissions.js");
 
 async function rewardBoosters(client) {
     // Obtén todos los guilds donde está habilitado el boostRewarder y el bot está presente.
@@ -21,10 +20,8 @@ async function rewardBoosters(client) {
             // Si la guild tiene un canal de boostRewarder definido
             if (guild.boostRewarderChannel) {
                 // Intenta obtener el objeto TextChannel
-                boostRewarderChannel = client.channels.cache.get(guild.boostRewarderChannel);
-
-                // Si no se encontró en el caché, verificar si puede fetchearlo, y fetchearlo.
-                if (!boostRewarderChannel && client.canSendMessages(boostRewarderChannel)) {
+                let channel = await discordGuild.channels.fetch(boostRewarderChannel);
+                if (client.canSendMessages(channel)) {
                     boostRewarderChannel = await client.channels.fetch(guild.boostRewarderChannel);
                 }
                 if (!boostRewarderChannel) {
@@ -33,7 +30,7 @@ async function rewardBoosters(client) {
                 }
             }
 
-            // Hardcodeado para testear
+            // TODO: Hardcodeado para testear
             let boosterRole = "1198395369667702875" || discordGuild.roles.premiumSubscriberRole;
 
             if (!boosterRole) {

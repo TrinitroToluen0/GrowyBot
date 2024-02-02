@@ -1,11 +1,12 @@
 const { Events, Collection, EmbedBuilder, PermissionsBitField, Colors } = require("discord.js");
-const logger = require("../utils/logger");
+const logger = require("../utils/logger.js");
 const checkBotPermissions = require("../helpers/checkBotPermissions.js");
+const { DEV_USER_ID } = require("../config.js");
 
 module.exports = {
     name: Events.InteractionCreate,
     async execute(client, interaction) {
-        if (!interaction.isChatInputCommand()) return;
+        if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
 
         const command = interaction.client.commands.get(interaction.commandName);
 
@@ -14,19 +15,21 @@ module.exports = {
             return;
         }
 
+        if (command.devOnly && interaction.user.id !== DEV_USER_ID) {
+            logger.warn(`${interaction.user.id} (${interaction.user.username}) tried to execute a dev-only command.`);
+            return;
+        }
+
         // Checkear permisos
         if (command.botPermissions && command.botPermissions.length > 0) {
             const missingPermissions = await checkBotPermissions(interaction.guild, command.botPermissions);
-            const isAdmin = interaction.member.permissions.has(PermissionsBitField.Flags.Administrator);
-
             if (missingPermissions !== true) {
-                const embed = new EmbedBuilder()
-                    .setDescription(
-                        `I can't run this command because I am missing some important permissions. I need the following permissions: ${missingPermissions.join(", ")}
-                        
-                        ${isAdmin ? "Go to `Server settings > Roles > Growy` and enable them." : ""}`
-                    )
-                    .setColor(Colors.Red);
+                const isAdmin = interaction.member.permissions.has(PermissionsBitField.Flags.Administrator);
+                let description = `I'm unable to execute this command because I lack the following permissions:\n\n ${missingPermissions.join(", ")}`;
+                if (isAdmin) {
+                    description += `\n\n Please go to \`Server settings > Roles > Growy\` and grant me these permissions. If you don't find a \"Growy\" role, create one and assign it to me. Otherwise, this command won't work on your guild.`;
+                }
+                const embed = new EmbedBuilder().setDescription(description).setColor(Colors.Red);
                 interaction.reply({ embeds: [embed], ephemeral: isAdmin });
                 return;
             }
@@ -48,8 +51,11 @@ module.exports = {
 
             if (now < expirationTime) {
                 const expiredTimestamp = Math.round(expirationTime / 1_000);
+                const embed = new EmbedBuilder()
+                    .setDescription(`Please wait, you are on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`)
+                    .setColor(Colors.Blue);
                 return interaction.reply({
-                    content: `Please wait, you are on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`,
+                    embeds: [embed],
                     ephemeral: true,
                 });
             }
@@ -62,10 +68,11 @@ module.exports = {
             await command.execute(interaction);
         } catch (error) {
             logger.error(error);
+            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("There was an error while executing this command!");
             if (interaction.replied || interaction.deferred) {
-                return await interaction.followUp({ content: "There was an error while executing this command!", ephemeral: true });
+                return await interaction.followUp({ embeds: [embed], ephemeral: true });
             }
-            await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
+            await interaction.reply({ embeds: [embed], ephemeral: true });
         }
     },
 };

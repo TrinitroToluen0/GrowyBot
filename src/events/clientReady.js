@@ -3,6 +3,7 @@ const { ACTIVITY_NAME, ACTIVITY_TYPE } = require("../config.js");
 const logger = require("../utils/logger.js");
 const Guild = require("../models/GuildModel.js");
 const checkBotPermissions = require("../helpers/checkBotPermissions.js");
+const { setBumpReminder } = require("../helpers/bumpReminder.js");
 
 module.exports = {
     name: Events.ClientReady,
@@ -11,6 +12,7 @@ module.exports = {
         cacheGuilds(client);
         cacheInvites(client);
         printReady(client);
+        setTasks(client);
         client.user.setActivity(ACTIVITY_NAME, { type: ACTIVITY_TYPE });
     },
 };
@@ -25,7 +27,7 @@ const cacheGuilds = async (client) => {
 const cacheInvites = async (client) => {
     for (const guild of client.guilds.cache.values()) {
         try {
-            if (checkBotPermissions(guild, PermissionsBitField.Flags.ManageGuild) !== true) continue;
+            if ((await checkBotPermissions(guild, PermissionsBitField.Flags.ManageGuild)) !== true) continue;
             const invites = await guild.invites.fetch();
             const codeUses = new Map();
             invites.each((inv) => codeUses.set(inv.code, inv.uses));
@@ -35,6 +37,17 @@ const cacheInvites = async (client) => {
         }
     }
 };
+
+async function setTasks(client) {
+    const bumpReminderGuilds = await Guild.find({ botPresent: true, bumpReminderEnabled: true, bumpReminderChannel: { $exists: true, $ne: null } });
+    for (const guild of bumpReminderGuilds) {
+        if (guild.nextBumpReminder && guild.nextBumpReminder.getTime() < Date.now()) {
+            continue;
+        }
+        const discordGuild = await client.guilds.fetch(guild.guildId);
+        setBumpReminder(discordGuild);
+    }
+}
 
 const printReady = (client) => {
     console.log(`

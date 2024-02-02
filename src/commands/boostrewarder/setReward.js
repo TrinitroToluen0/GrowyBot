@@ -15,7 +15,9 @@ module.exports = {
         let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
 
         if (!guildConfig.boostRewarderEnabled) {
-            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("The boost rewarder module is disabled. Enable it with the command `/boostrewarder-enable`");
+            const embed = new EmbedBuilder()
+                .setColor(Colors.Red)
+                .setDescription("The boost rewarder module is disabled. Enable it with the command </boostrewarder-enable:1201445092129517608>");
             return interaction.reply({ embeds: [embed] });
         }
 

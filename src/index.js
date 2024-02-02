@@ -1,18 +1,20 @@
+console.clear();
 require("./db.js");
 const { BOT_TOKEN } = require("./config.js");
 const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
 require("./utils/errorHandler.js");
 
 const client = new Client({
+    disableEveryone: false,
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildInvites,
         GatewayIntentBits.GuildMessages,
-        // GatewayIntentBits.MessageContent,
+        GatewayIntentBits.MessageContent,
         // GatewayIntentBits.DirectMessages,
     ],
-    partials: [/*Partials.Channel,*/ Partials.GuildMember],
+    partials: [Partials.Channel, Partials.GuildMember],
 });
 
 global.client = client;
@@ -46,9 +48,9 @@ eventHandler(client);
 
 client.login(BOT_TOKEN);
 
-// Cada 24 horas, rewardear a los boosters.
+// A las 4PM, rewardear a los boosters.
 const rewardBoosters = require("./helpers/rewardBoosters.js");
 const cron = require("node-cron");
-cron.schedule("0 0 * * *", () => {
+cron.schedule("0 16 * * *", () => {
     rewardBoosters(client);
 });

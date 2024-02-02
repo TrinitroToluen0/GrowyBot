@@ -11,7 +11,6 @@ async function rewardInviter(inviterId, guild) {
     }
     try {
         let inviter = await User.findOne({ userId: inviterId, guildId: guild.id });
-        let guildConfig = await guild.client.getGuildConfig(guild.id);
         // If the inviter doesn't exist in the database, create a new user for the inviter
         if (!inviter) {
             inviter = new User({
@@ -22,6 +21,7 @@ async function rewardInviter(inviterId, guild) {
         }
 
         // Increment the inviter's invitation and money count
+        const guildConfig = await guild.client.getGuildConfig(guild.id);
         inviter.invitations++;
         inviter.money += guildConfig.invitationReward;
         await inviter.save();

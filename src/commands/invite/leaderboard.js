@@ -6,7 +6,7 @@ module.exports = {
     category: "invites",
     cooldown: 5,
     botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
-    data: new SlashCommandBuilder().setName("invite-leaderboard").setDescription("Displays the top 10 users with the most invites of the guild.").setDMPermission(false),
+    data: new SlashCommandBuilder().setName("invites-leaderboard").setDescription("Displays the top 10 users with the most invites of the guild.").setDMPermission(false),
 
     async execute(interaction) {
         const users = await User.find({ guildId: interaction.guild.id, invitations: { $gte: 1 } })

@@ -18,7 +18,6 @@ const guildSchema = new mongoose.Schema(
             required: true,
             default: false,
         },
-        invitationCode: String,
         invitationReward: {
             type: Number,
             required: true,
@@ -30,7 +29,9 @@ const guildSchema = new mongoose.Schema(
             required: true,
             default: false,
         },
+        bumpReminderRole: String,
         bumpReminderChannel: String,
+        nextBumpReminder: Date,
         bumpReward: {
             type: Number,
             required: true,
@@ -49,7 +50,13 @@ const guildSchema = new mongoose.Schema(
             default: 5,
             min: 0,
         },
-        interchatChannels: [String],
+        interchatChannel: {
+            id: String,
+            server: {
+                type: String,
+                enum: ["English", "Español"],
+            },
+        },
     },
     { versionKey: false }
 );

@@ -10,7 +10,8 @@ async function connectDB(uri) {
         const db = await mongoose.connect(uri);
         logger.info(`Connected to database: ${db.connection.db.databaseName}`);
     } catch (error) {
-        logger.error(error);
+        logger.error("Connection to mongoDB failed: ", error);
+        process.exit();
     }
 }
 

@@ -15,7 +15,9 @@ module.exports = {
         let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
 
         if (!guildConfig.bumpReminderEnabled) {
-            const embed = new EmbedBuilder().setColor(embedError).setDescription("The bump reminder module is disabled. Enable it with the command `/bumpreminder-enable`");
+            const embed = new EmbedBuilder()
+                .setColor(Colors.Red)
+                .setDescription("The bump reminder module is disabled. Enable it with the command </bumpreminder-enable:1201445092129517611>");
             return interaction.reply({ embeds: [embed] });
         }
 

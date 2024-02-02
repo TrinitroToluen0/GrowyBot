@@ -8,11 +8,12 @@ module.exports = {
     name: Events.GuildMemberAdd,
     async execute(client, member) {
         try {
+            if (member.bot) return;
             const inviterId = await getInviterId(member);
             await rewardInviter(inviterId, member.guild);
             await welcomeMember(member, inviterId);
         } catch (error) {
-            logger.error(`OnGuildMemberAdd error: `, error);
+            logger.error(`OnGuildMemberAdd failed: `, error);
         }
     },
 };
