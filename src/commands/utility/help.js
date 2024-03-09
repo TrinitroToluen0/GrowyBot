@@ -19,7 +19,7 @@ module.exports = {
     data: new SlashCommandBuilder().setName("help").setDescription("Shows commands information and how to setup some features.").setDMPermission(false),
 
     async execute(interaction) {
-        let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
+        const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
 
         let embedDescription = `Do you need help? This is the place!
         
@@ -167,7 +167,6 @@ I recommend that your interchat channel is empty and created specifically for th
 
         collector.on("collect", async (i) => {
             i.deferUpdate();
-            guildConfig = await interaction.client.getGuildConfig(i.guild.id);
             const selectedValue = i.values[0];
             const selectedCategory = categories.find((category) => category.value === selectedValue);
             if (selectedCategory) {

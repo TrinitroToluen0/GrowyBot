@@ -46,6 +46,7 @@ class Logger {
     }
 
     debug(...messages) {
+        if (DEV_MODE === false) return;
         this.log("DEBUG", c.magenta, ...messages);
     }
 

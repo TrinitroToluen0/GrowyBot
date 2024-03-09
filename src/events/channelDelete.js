@@ -9,7 +9,7 @@ module.exports = {
                 return;
             }
 
-            let guildConfig = await client.getGuildConfig(channel.guild.id);
+            const guildConfig = await client.getGuildConfig(channel.guild.id);
             let updated = false;
 
             if (guildConfig.welcomeChannel === channel.id) {

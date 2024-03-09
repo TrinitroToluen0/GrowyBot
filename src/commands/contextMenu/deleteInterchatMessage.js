@@ -46,6 +46,7 @@ module.exports = {
             }
 
             const webhookClient = new WebhookClient({ id: webhook.id, token: webhook.token });
+
             let messages;
             if (INTERCHAT_MOD_TEAM.includes(interaction.user.id)) {
                 messages = await channel.messages.fetch({ limit: 100 });
@@ -56,7 +57,7 @@ module.exports = {
             messages.forEach(async (message) => {
                 if (message.embeds[0] && message.embeds[0].data.url === messageURL) {
                     let embed = new EmbedBuilder(message.embeds[0]);
-                    embed.setDescription(`${italic(description)}`);
+                    embed.setDescription(italic(description));
                     embed.setImage(null);
                     embed.setURL(messageURL + "&isDeleted=true");
                     embed.setFooter(null);

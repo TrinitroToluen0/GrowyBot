@@ -12,7 +12,7 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
         .addNumberOption((option) => option.setName("amount").setDescription("The amount of money to be granted for boosting the server").setRequired(true)),
     async execute(interaction) {
-        let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
+        const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
 
         if (!guildConfig.boostRewarderEnabled) {
             const embed = new EmbedBuilder()

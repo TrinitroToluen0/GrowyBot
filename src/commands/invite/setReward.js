@@ -12,7 +12,7 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
         .addNumberOption((option) => option.setName("amount").setDescription("The amount of money to be granted for inviting a user").setRequired(true)),
     async execute(interaction) {
-        let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
+        const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
         let invitationReward = interaction.options.getNumber("amount");
         guildConfig.invitationReward = invitationReward;
         await guildConfig.save();

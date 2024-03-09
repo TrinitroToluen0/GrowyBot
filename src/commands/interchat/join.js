@@ -20,7 +20,7 @@ module.exports = {
         ),
 
     async execute(interaction) {
-        let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
+        const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
         let server = interaction.options.getString("server");
         let channel = interaction.channel;
 

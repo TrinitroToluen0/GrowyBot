@@ -11,7 +11,7 @@ module.exports = {
         .addBooleanOption((option) => option.setName("enabled").setDescription("Whether to enable or disable the bump reminder module").setRequired(true)),
 
     async execute(interaction) {
-        let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
+        const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
         let enabled = interaction.options.getBoolean("enabled");
 
         // Check if the current state is the same as the one being applied

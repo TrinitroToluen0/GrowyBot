@@ -2,13 +2,17 @@ const mongoose = require("mongoose");
 
 const shopSchema = new mongoose.Schema(
     {
-        productName: {
-            type: String,
-            required: true,
-        },
         guildId: {
             type: String,
             required: true,
+        },
+        name: {
+            type: String,
+            required: true,
+        },
+        description: {
+            type: String,
+            required: false,
         },
         price: {
             type: Number,
@@ -16,7 +20,7 @@ const shopSchema = new mongoose.Schema(
             min: 0,
         },
     },
-    { versionkey: false }
+    { versionKey: false }
 );
 
 module.exports = mongoose.model("Shop", shopSchema, "Shops");

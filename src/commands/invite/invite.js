@@ -18,7 +18,7 @@ module.exports = {
             embed.setDescription(`The official guild invitation is ${botInvite.url}`);
         } else {
             embed.setColor(Colors.Red);
-            embed.setDescription(`The official guild invitation has not been set yet.${isAdmin ? " You can set it with the command `/invite-set`." : ""}`);
+            embed.setDescription(`The official guild invitation has not been set yet.${isAdmin ? " You can set it with the command </invite-set:1202024120062312558>" : ""}`);
         }
 
         await interaction.editReply({ embeds: [embed] });

@@ -11,7 +11,7 @@ module.exports = {
         .addChannelOption((option) => option.setName("channel").setDescription("The channel to display the rewarder messages.").addChannelTypes(ChannelType.GuildText)),
 
     async execute(interaction) {
-        let guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
+        const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
         let channel = interaction.options.getChannel("channel") || interaction.channel;
 
         if (!guildConfig.boostRewarderEnabled) {

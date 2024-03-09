@@ -57,6 +57,8 @@ const guildSchema = new mongoose.Schema(
                 enum: ["English", "Español"],
             },
         },
+        shopChannel: String,
+        shopWebhook: String,
     },
     { versionKey: false }
 );

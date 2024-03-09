@@ -26,26 +26,4 @@ async function checkBotPermissions(guild, permissions) {
     return true;
 }
 
-global.client.canSendMessages = (channel) => {
-    if (!(channel instanceof TextChannel)) {
-        throw new Error("The provided channel is not a valid instance of TextChannel.");
-    }
-    try {
-        const botPermissions = channel.permissionsFor(channel.client.user);
-
-        if (!botPermissions.has(PermissionsBitField.Flags.ViewChannel)) {
-            return false;
-        }
-
-        if (!botPermissions.has(PermissionsBitField.Flags.SendMessages)) {
-            return false;
-        }
-
-        return true;
-    } catch (error) {
-        logger.error("canSendMessages failed: ", error);
-        return false;
-    }
-};
-
 module.exports = checkBotPermissions;

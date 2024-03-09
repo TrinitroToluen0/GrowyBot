@@ -137,7 +137,7 @@ const broadcast = async (message, server) => {
         let webhook = webhooks.find((hook) => hook.owner.id === client.user.id);
 
         if (!webhook) {
-            webhook = await channel.createWebhook({ name: "Growy", avatar: global.client.user.displayAvatarURL() });
+            webhook = await channel.createWebhook({ name: "Growy", avatar: client.user.displayAvatarURL() });
         }
 
         const webhookClient = new WebhookClient({ id: webhook.id, token: webhook.token });

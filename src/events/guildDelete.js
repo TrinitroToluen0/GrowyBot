@@ -5,7 +5,7 @@ module.exports = {
     name: Events.GuildDelete,
     async execute(client, guild) {
         try {
-            let guildConfig = await client.getGuildConfig(guild.id);
+            const guildConfig = await client.getGuildConfig(guild.id);
             guildConfig.botPresent = false;
             await guildConfig.save();
             client.guildConfigs.delete(guild.id);

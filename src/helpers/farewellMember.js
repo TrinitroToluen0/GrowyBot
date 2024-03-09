@@ -5,22 +5,23 @@ const User = require("../models/UserModel.js");
 async function farewellMember(member, inviterId) {
     const { client } = member;
     const guildConfig = await client.getGuildConfig(member.guild.id);
-    const inviter = await User.findOne({ userId: inviterId, guildId: member.guild.id });
-
-    const farewells = {
-        official: `<@${member.user.id}> left. They had joined using the official guild invitation.`,
-        invitedBy: inviter ? `<@${member.user.id}> left. They were invited by <@${inviter.userId}> who now has ${inviter.invitations} invitations.` : "",
-        inviterNotFoundInDb: `<@${member.user.id}> left. They were invited by <@${inviterId}>`,
-        unknown: `<@${member.user.id}> left.`,
-    };
-
-    const embed = new EmbedBuilder().setColor(Colors.Red).setImage(member.displayAvatarURL({ format: "png", dynamic: true, size: 2048 }));
 
     if (!guildConfig.welcomeChannel) {
         return false;
     }
 
-    const channel = member.guild.channels.fetch(guildConfig.welcomeChannel);
+    const inviter = await User.findOne({ userId: inviterId, guildId: member.guild.id });
+
+    const farewells = {
+        official: `**<@${member.user.id}> left. They had joined using the official guild invitation.**`,
+        invitedBy: inviter ? `**<@${member.user.id}> left. They were invited by <@${inviter.userId}> who now has ${inviter.invitations} invitations.**` : "",
+        inviterNotFoundInDb: `**<@${member.user.id}> left. They were invited by <@${inviterId}>**`,
+        unknown: `**<@${member.user.id}> left.**`,
+    };
+
+    const embed = new EmbedBuilder().setColor(Colors.Red).setImage(member.displayAvatarURL({ format: "png", dynamic: true, size: 2048 }));
+
+    const channel = await member.guild.channels.fetch(guildConfig.welcomeChannel);
     if (!channel) {
         guildConfig.welcomeChannel = null;
         guildConfig.save();

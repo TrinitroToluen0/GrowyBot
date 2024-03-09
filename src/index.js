@@ -1,19 +1,12 @@
 console.clear();
 require("./db.js");
 const { BOT_TOKEN } = require("./config.js");
-const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
+const { Client, Collection, GatewayIntentBits, Partials, TextChannel, PermissionsBitField } = require("discord.js");
 require("./utils/errorHandler.js");
+const logger = require("./utils/logger.js");
 
 const client = new Client({
-    disableEveryone: false,
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildInvites,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent,
-        // GatewayIntentBits.DirectMessages,
-    ],
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
     partials: [Partials.Channel, Partials.GuildMember],
 });
 
@@ -25,8 +18,8 @@ client.invites = new Collection();
 client.guildConfigs = new Collection();
 
 const Guild = require("./models/GuildModel.js");
-client.getGuildConfig = async function (guildId) {
-    let guild = this.guildConfigs.get(guildId);
+client.getGuildConfig = async (guildId) => {
+    let guild = client.guildConfigs.get(guildId);
 
     if (!guild) {
         guild = await Guild.findOne({ guildId: guildId });
@@ -34,10 +27,32 @@ client.getGuildConfig = async function (guildId) {
             guild = new Guild({ guildId: guildId });
             await guild.save();
         }
-        this.guildConfigs.set(guildId, guild);
+        client.guildConfigs.set(guildId, guild);
     }
 
     return guild;
+};
+
+client.canSendMessages = (channel) => {
+    if (!(channel instanceof TextChannel)) {
+        throw new Error("The provided channel is not a valid instance of TextChannel.");
+    }
+    try {
+        const botPermissions = channel.permissionsFor(channel.client.user);
+
+        if (!botPermissions.has(PermissionsBitField.Flags.ViewChannel)) {
+            return false;
+        }
+
+        if (!botPermissions.has(PermissionsBitField.Flags.SendMessages)) {
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        logger.error("canSendMessages failed: ", error);
+        return false;
+    }
 };
 
 const commandHandler = require("./commands");
