@@ -9,6 +9,7 @@ const sendToInterchat = require("../../helpers/interchat.js");
 const emojis = require("../../utils/emojis.json");
 const { onBump } = require("../../helpers/bumpReminder.js");
 const CustomEvents = require("../../helpers/customEvents.js");
+const { goldCoin, shop } = require("../../utils/emojis.json");
 
 module.exports = {
     category: "dev-only",
@@ -30,9 +31,12 @@ module.exports = {
         const member = await interaction.guild.members.fetch(interaction.user.id);
         // interaction.client.emit(Events.GuildMemberAdd, member);
 
-        const embed = new EmbedBuilder().setColor(Colors.Blue).setImage(member.displayAvatarURL({ format: "png", dynamic: true, size: 2048 }));
-        embed.setTitle("An user has bought something from the shop");
-        embed.setDescription();
+        const embed = new EmbedBuilder()
+            .setColor(Colors.Blue)
+            .setImage(member.displayAvatarURL({ format: "png", dynamic: true, size: 2048 }))
+            .setTimestamp()
+            .setTitle(`${shop}  An user made a purchase`)
+            .setDescription(`Item ID: **1234567890** \nItem name: **RANGO VIP** \nItem description: **lorem ipsum** \nItem price: ${goldCoin} **100**`);
 
         interaction.editReply({ embeds: [embed] });
     },

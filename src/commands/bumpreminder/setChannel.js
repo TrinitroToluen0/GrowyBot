@@ -31,11 +31,9 @@ module.exports = {
             return await interaction.reply({ embeds: [embed] });
         }
 
-        // Update the 'bumpReminderChannel' field in the guild configuration
         guildConfig.bumpReminderChannel = channel.id;
         await guildConfig.save();
 
-        // Send a confirmation message
         const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The bump reminder channel has been set to <#${guildConfig.bumpReminderChannel}>.`);
         await interaction.reply({ embeds: [embed] });
     },

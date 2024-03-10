@@ -7,12 +7,8 @@ const {
     ActionRowBuilder,
     ComponentType,
     Colors,
-    TextInputBuilder,
-    TextInputStyle,
-    ModalBuilder,
 } = require("discord.js");
 const Shop = require("../../models/ShopModel.js");
-const logger = require("../../utils/logger.js");
 
 module.exports = {
     category: "economy",
@@ -20,7 +16,7 @@ module.exports = {
     botPermissions: [],
     data: new SlashCommandBuilder()
         .setName("shop-remove")
-        .setDescription("Removes an item of the guild shop")
+        .setDescription("Removes an item of the guild shop.")
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 

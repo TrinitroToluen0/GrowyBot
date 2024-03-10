@@ -29,11 +29,9 @@ module.exports = {
             return await interaction.reply({ embeds: [embed] });
         }
 
-        // Update the 'welcomeEnabled' field in the guild configuration
         guildConfig.welcomeChannel = channel.id;
         await guildConfig.save();
 
-        // Send a confirmation message
         const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The welcome messages channel has ben set to <#${guildConfig.welcomeChannel}>.`);
         await interaction.reply({ embeds: [embed] });
     },

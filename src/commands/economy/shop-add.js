@@ -4,10 +4,10 @@ const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Colors, ModalBui
 module.exports = {
     category: "economy",
     cooldown: 5,
-    botPermissions: [],
+    botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
     data: new SlashCommandBuilder()
         .setName("shop-add")
-        .setDescription("Adds an item to the guild shop")
+        .setDescription("Adds an item to the guild shop.")
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 

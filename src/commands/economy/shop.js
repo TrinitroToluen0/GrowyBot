@@ -10,13 +10,16 @@ const {
     Colors,
 } = require("discord.js");
 const Shop = require("../../models/ShopModel.js");
+const User = require("../../models/UserModel.js");
 const logger = require("../../utils/logger.js");
+const { goldCoin, shop } = require("../../utils/emojis.json");
+const sendMessage = require("../../helpers/sendMessage.js");
 
 module.exports = {
     category: "economy",
     cooldown: 5,
     botPermissions: [],
-    data: new SlashCommandBuilder().setName("shop").setDescription("Shows available items from the shop").setDMPermission(false),
+    data: new SlashCommandBuilder().setName("shop").setDescription("Shows items available for purchase in the shop.").setDMPermission(false),
 
     async execute(interaction) {
         const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
@@ -55,13 +58,13 @@ module.exports = {
             time: 600_000,
         });
 
-        let selectedItem = null; // Variable para almacenar el artículo seleccionado
+        let purchasedItem;
 
         collector.on("collect", async (i) => {
             await i.deferUpdate();
             const selectedValue = i.values[0];
             const item = await Shop.findOne({ guildId: i.guild.id, _id: selectedValue });
-            selectedItem = item; // Almacenamos el artículo seleccionado
+            purchasedItem = item;
             embed.setTitle(item.name);
             embed.setDescription(item.description);
             const button = new ButtonBuilder().setLabel(`Buy ($${item.price})`).setCustomId(i.id).setStyle(ButtonStyle.Success).setEmoji("💰");
@@ -76,29 +79,55 @@ module.exports = {
 
         buttonCollector.on("collect", async (i) => {
             await i.deferUpdate();
-            // if (guildConfig.shopChannel) {
-            //     try {
-            //         const notificationEmbed = new EmbedBuilder().setColor(Colors.Blue).setAuthor(i.user.id)
-            //         const channel = client.channels.fetch(guildConfig.shopChannel);
-            //         client.sendMessage(channel, {embeds: [notificationEmbed]})
-            //     } catch {}
-            // }
-            if (guildConfig.shopWebhook) {
-                try {
+            try {
+                let user = await User.findOne({ guildId: i.guild.id, userId: i.user.id });
+                if (!user) {
+                    user = new User({
+                        userId: i.user.id,
+                        guildId: i.guild.id,
+                    });
+                }
+
+                if (user.money < purchasedItem.price) {
+                    const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("You don't have enough money to purchase this item.");
+                    return i.followUp({ embeds: [embed] });
+                }
+
+                user.money -= purchasedItem.price;
+                await user.save();
+
+                if (guildConfig.shopChannel) {
+                    const embed = new EmbedBuilder()
+                        .setColor(Colors.Blue)
+                        .setImage(i.user.displayAvatarURL({ format: "png", dynamic: true, size: 2048 }))
+                        .setTimestamp()
+                        .setTitle(`${shop}  An user made a purchase`)
+                        .setDescription(
+                            `User: <@${i.user.id}> \nItem ID: \`${purchasedItem._id}\` \nItem name: \`${purchasedItem.name}\` \nItem price: ${goldCoin} \`${purchasedItem.price}\``
+                        );
+                    const channel = await client.channels.fetch(guildConfig.shopChannel);
+                    sendMessage(channel, { embeds: [embed] });
+                }
+                if (guildConfig.shopWebhook) {
+                    purchasedItem.buyerId = i.user.id;
                     fetch(guildConfig.shopWebhook, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(selectedItem),
+                        body: JSON.stringify(purchasedItem),
                     });
-                } catch (error) {
-                    logger.warn(`An error ocurred: ${error}`);
                 }
-            }
+                const embed = new EmbedBuilder()
+                    .setColor(Colors.Green)
+                    .setDescription(
+                        `You bought \`${purchasedItem.name}\` for a price of ${goldCoin} \`${purchasedItem.price}\`. A notification has been sent to the administrators of the guild about your purchase.`
+                    );
 
-            console.log(`El artículo seleccionado es: ${selectedItem}`);
-            i.followUp(`Has comprado el artículo: ${selectedItem.name}`);
+                i.followUp({ embeds: [embed] });
+            } catch (error) {
+                logger.error(`An error occurred while sending a purchase notification: `, error);
+            }
         });
 
         collector.on("end", () => {

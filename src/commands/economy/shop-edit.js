@@ -19,7 +19,7 @@ module.exports = {
     botPermissions: [],
     data: new SlashCommandBuilder()
         .setName("shop-edit")
-        .setDescription("Edits an item of the guild shop")
+        .setDescription("Edits an item of the guild shop.")
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 

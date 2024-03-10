@@ -6,7 +6,7 @@ module.exports = {
     category: "utility",
     cooldown: 5,
     botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
-    data: new SlashCommandBuilder().setName("inviteme").setDescription("Invite the Growy bot to your guild").setDMPermission(true),
+    data: new SlashCommandBuilder().setName("inviteme").setDescription("Invite the Growy Bot to your Discord server.").setDMPermission(true),
     async execute(interaction) {
         logger.info(`User "${interaction.user.username}" used the command /inviteme`);
         const clientId = interaction.client.user.id;

@@ -30,8 +30,7 @@ async function rewardBoosters(client) {
                 }
             }
 
-            // TODO: Hardcodeado para testear
-            let boosterRole = "1198395369667702875" || discordGuild.roles.premiumSubscriberRole;
+            const boosterRole = discordGuild.roles.premiumSubscriberRole;
 
             if (!boosterRole) {
                 if (boostRewarderChannel) {

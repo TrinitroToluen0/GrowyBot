@@ -1,5 +1,5 @@
 const User = require("../../models/UserModel.js");
-const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Colors } = require("discord.js");
+const { Interaction, EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Colors } = require("discord.js");
 const { goldCoin, invitation } = require("../../utils/emojis.json");
 
 module.exports = {
@@ -8,6 +8,9 @@ module.exports = {
     botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
     data: new SlashCommandBuilder().setName("").setDescription("").setDMPermission(false).setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
+    /**
+     * @param {Interaction} interaction
+     */
     async execute(interaction) {
         const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
     },

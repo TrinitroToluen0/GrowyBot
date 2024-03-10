@@ -18,9 +18,7 @@ async function setBumpReminder(guild) {
 
         // Eliminar el mensaje de timer
         const channelMessages = await channel.messages.fetch({ limit: 10 });
-        const timerMessage = channelMessages.find(
-            (message) => message.embeds[1]?.data.description.includes("You can bump again") && message.author.id === guild.client.user.id
-        );
+        const timerMessage = channelMessages.find((message) => message.embeds[1]?.data.description.includes("You can bump again") && message.author.id === guild.client.user.id);
         if (timerMessage) await timerMessage.edit({ embeds: [timerMessage.embeds[0]] });
 
         let content;
@@ -41,11 +39,8 @@ async function setBumpReminder(guild) {
 }
 
 function getFutureBumpDate() {
-    const futureTimestamp = Math.floor(Date.now() / 1000) + 15;
+    const futureTimestamp = Math.floor(Date.now() / 1000) + 7200;
     return new Date(futureTimestamp * 1000);
-    // TODO: Cambiar al código real que aumenta 2 horas al timer
-    // const futureTimestamp = Math.floor(Date.now() / 1000) + 7200;
-    // return new Date(futureTimestamp * 1000);
 }
 
 async function bumpReward(bumperId, guild) {

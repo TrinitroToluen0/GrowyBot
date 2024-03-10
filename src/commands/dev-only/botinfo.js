@@ -1,7 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField, version, Colors } = require("discord.js");
 const emojis = require("../../utils/emojis.json");
-const { DEV_USER_ID } = require("../../config.js");
-
 const uptime = Math.floor(Date.now() / 1000 - process.uptime());
 
 module.exports = {

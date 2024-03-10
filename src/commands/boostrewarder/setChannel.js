@@ -31,11 +31,9 @@ module.exports = {
             return await interaction.reply({ embeds: [embed] });
         }
 
-        // Update the 'boostRewarderChannel' field in the guild configuration
         guildConfig.boostRewarderChannel = channel.id;
         await guildConfig.save();
 
-        // Send a confirmation message
         const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The boost rewarder channel has ben set to <#${guildConfig.boostRewarderChannel}>.`);
         await interaction.reply({ embeds: [embed] });
     },
