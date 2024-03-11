@@ -97,8 +97,7 @@ users can earn money inviting othe users to your server. There is also a few com
 money to your users manually.
 
 ## :question: How can my users spend money?
-You can set a shop and add items to it with the command </shop-add:1213246942776262686>, you can set a price and users can pay for it. You can sell roles to be automatically 
-assigned to the people who buy it, and you can sell other things an manually give them to your users.
+You can set a shop and add items to it with the command </shop-add:1213246942776262686>, you can set a price and users can pay for it.
 
 ## ${commands} Available commands
 - </balance:1201445092129517616> Checks a user money balance.
