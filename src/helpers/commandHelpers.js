@@ -1,5 +1,28 @@
 const { nitro, goldCoin, commands } = require("../utils/emojis.json");
 
+const invitesHelper = async (interaction) => {
+    const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
+    return `# 📩 Invites category \n\n
+
+## :question: How it works?    
+With this module, you can track invitations on your guild. You can know who invited who, and reward users for inviting other users.
+
+## ${commands} Available commands
+- </invite-set:1202024120062312558> Sets the official guild invitation.
+- </invite:1201445092255338581> Shows the official guild invitation.
+- </invites:1201445092255338582> Shows the number of invites a user has.
+- </invites-leaderboard:1201445092255338583> Displays the top 10 users with the most invites of the guild.
+- </invites-setreward:1201445092255338584> Sets the amount of money given for inviting users to the guild.
+- </welcome-enable:1201445092389572648> Enables or disables the welcome messages module.
+- </welcome-setchannel:1201445092389572649> Sets a channnel to display the welcome messages.
+
+## ⚙️ Actual configuration
+- Welcome enabled ➞ \`${guildConfig.welcomeEnabled}\`
+- Welcome channel ➞ ${guildConfig.welcomeChannel ? `<#${guildConfig.welcomeChannel}>` : "None"}
+- Invite reward ➞ ${goldCoin} \`${guildConfig.invitationReward}\`
+`;
+};
+
 const boostRewarderHelper = async (interaction) => {
     const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
     return `# ${nitro} Boost rewarder category
@@ -18,12 +41,18 @@ Every day at 9:00 P.M UTC, all members of your guild with the Discord-created Bo
 ## ⚙️ Actual configuration
 - Enabled ➞ \`${guildConfig.boostRewarderEnabled}\`
 - Channel ➞ ${guildConfig.boostRewarderChannel ? `<#${guildConfig.boostRewarderChannel}>` : "None"}
-- Reward ➞ ${goldCoin} \`${guildConfig.boostReward}\`
+- Daily reward ➞ ${goldCoin} \`${guildConfig.boostReward}\`
 `;
 };
 
 const bumpReminderHelper = async (interaction) => {
     const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
+    let bumpReminderRoleResolved = "None";
+    if (guildConfig.bumpReminderRole) {
+        let isEveryoneRole = interaction.guild.roles.everyone.id === guildConfig.bumpReminderRole;
+        bumpReminderRoleResolved = isEveryoneRole ? "@everyone" : `<@&${guildConfig.bumpReminderRole}>`;
+    }
+
     return `# ⏰ Bump reminder category
 
 ## :question: How it works?
@@ -39,6 +68,7 @@ members, a bump can be done every 2 hours.
 - </bumpreminder-enable:1201445092129517611> Enable the bump reminder module, if the module is disabled, nothing will happen even if disboard is in your server and a user bumps it.
 - </bumpreminder-setchannel:1201445092129517612> Set a channel for the bump reminder module to remind your users when they can bump and publicly thank all of the bumpers in your server.
 - </bumpreminder-setreward:1201445092129517613> Set the amount of money that your bumpers will get for bumping your server.
+- </bumpreminder-setrole:1202771703688863834> Sets a role to mention when reminding your users to bump your server.
 
 ## 🤔 To consider
 - This module requires you to have your server submitted and approved on the [Disboard website](https://disboard.org/).
@@ -48,6 +78,7 @@ members, a bump can be done every 2 hours.
 - Enabled ➞ \`${guildConfig.bumpReminderEnabled}\`
 - Channel ➞ ${guildConfig.bumpReminderChannel ? `<#${guildConfig.bumpReminderChannel}>` : "None"}
 - Reward ➞ ${goldCoin} \`${guildConfig.bumpReward}\`
+- Role ➞ ${bumpReminderRoleResolved}
 `;
 };
 
@@ -119,10 +150,12 @@ const utilityHelper = async (interaction) => {
 - </clear:1202746886407196732> Delete messages from a channel.
 - </lock:1216251868796289055> Disables @everyone to send messages in specific channel.
 - </unlock:1216254790460375092> Allows @everyone to send messages in specific channel.
+- </embed:1216618352580100137> Shows a modal to easy create an embed message.
 `;
 };
 
 module.exports = {
+    invitesHelper,
     boostRewarderHelper,
     bumpReminderHelper,
     economyHelper,

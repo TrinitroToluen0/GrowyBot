@@ -25,7 +25,7 @@ async function setBumpReminder(guild) {
 
         if (guildConfig.bumpReminderRole) {
             isEveryoneRole = guildConfig.bumpReminderRole === guild.roles.everyone.id;
-            content = isEveryoneRole ? "@everyone" : `<&${guildConfig.bumpReminderRole}>`;
+            content = isEveryoneRole ? "@everyone" : `<@&${guildConfig.bumpReminderRole}>`;
         }
 
         // Enviar el remind embed

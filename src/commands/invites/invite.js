@@ -4,7 +4,7 @@ module.exports = {
     category: "invites",
     cooldown: 5,
     botPermissions: [PermissionsBitField.Flags.ManageGuild],
-    data: new SlashCommandBuilder().setName("invite").setDescription("Show the official guild invitation.").setDMPermission(false),
+    data: new SlashCommandBuilder().setName("invite").setDescription("Shows the official guild invitation.").setDMPermission(false),
     async execute(interaction) {
         await interaction.deferReply();
         const invites = await interaction.guild.invites.fetch();

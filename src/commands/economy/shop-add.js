@@ -11,6 +11,9 @@ module.exports = {
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
+    /**
+     * @param {Interaction} interaction
+     */
     async execute(interaction) {
         const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
         const embed = new EmbedBuilder().setColor(Colors.Red);

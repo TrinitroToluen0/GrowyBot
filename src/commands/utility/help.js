@@ -9,7 +9,7 @@ const {
     ComponentType,
 } = require("discord.js");
 const { nitro } = require("../../utils/emojis.json");
-const { boostRewarderHelper, bumpReminderHelper, economyHelper, interchatHelper, utilityHelper } = require("../../helpers/commandHelpers.js");
+const { invitesHelper, boostRewarderHelper, bumpReminderHelper, economyHelper, interchatHelper, utilityHelper } = require("../../helpers/commandHelpers.js");
 
 module.exports = {
     category: "utility",
@@ -19,6 +19,13 @@ module.exports = {
 
     async execute(interaction) {
         const categories = [
+            {
+                label: "Invites",
+                description: "Reward users for inviting other users.",
+                value: "invites",
+                emoji: "📩",
+                embedDescription: invitesHelper,
+            },
             {
                 label: "Boost rewarder",
                 description: "Reward users for being server boosters.",

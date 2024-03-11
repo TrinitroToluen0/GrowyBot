@@ -7,7 +7,7 @@ module.exports = {
     botPermissions: [PermissionsBitField.Flags.UseExternalEmojis],
     data: new SlashCommandBuilder()
         .setName("invites-setreward")
-        .setDescription("Sets the reward amount for inviting users to the guild.")
+        .setDescription("Sets the amount of money given for inviting users to the guild.")
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
         .addNumberOption((option) => option.setName("amount").setDescription("The amount of money to be granted for inviting a user").setRequired(true)),

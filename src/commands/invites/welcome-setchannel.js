@@ -1,7 +1,7 @@
 const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField, ChannelType, Colors } = require("discord.js");
 
 module.exports = {
-    category: "welcome",
+    category: "invites",
     cooldown: 5,
     data: new SlashCommandBuilder()
         .setName("welcome-setchannel")

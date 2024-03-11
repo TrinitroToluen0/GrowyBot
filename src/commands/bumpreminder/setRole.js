@@ -23,7 +23,6 @@ module.exports = {
         }
 
         if (role.id === guildConfig.bumpReminderRole) {
-            console.log(isEveryoneRole);
             const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`The bump reminder role is already ${isEveryoneRole ? "@everyone" : `<@&${role.id}>`}.`);
             return await interaction.reply({ embeds: [embed] });
         }

@@ -11,7 +11,7 @@ async function connectDB(uri) {
         logger.info(`Connected to database: ${db.connection.db.databaseName}`);
     } catch (error) {
         logger.error("Connection to mongoDB failed: ", error);
-        process.exit();
+        process.exit(1);
     }
 }
 

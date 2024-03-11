@@ -20,7 +20,7 @@ async function rewardBoosters(client) {
             // Si la guild tiene un canal de boostRewarder definido
             if (guild.boostRewarderChannel) {
                 // Intenta obtener el objeto TextChannel
-                let channel = await discordGuild.channels.fetch(boostRewarderChannel);
+                let channel = await discordGuild.channels.fetch(guild.boostRewarderChannel);
                 if (client.canSendMessages(channel)) {
                     boostRewarderChannel = await client.channels.fetch(guild.boostRewarderChannel);
                 }
@@ -30,7 +30,7 @@ async function rewardBoosters(client) {
                 }
             }
 
-            const boosterRole = discordGuild.roles.premiumSubscriberRole;
+            const boosterRole = discordGuild.roles.premiumSubscriberRole.id;
 
             if (!boosterRole) {
                 if (boostRewarderChannel) {
