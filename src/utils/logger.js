@@ -16,6 +16,12 @@ class Logger {
         const formattedMessage = `[${level}] ${this.timestamp} ${message}\n`;
         const logPath = DEV_MODE === true ? "./logs/dev.log" : "./logs/prod.log";
 
+        // Verificar si la carpeta logs existe, si no, crearla
+        const logsDir = "./logs";
+        if (!fs.existsSync(logsDir)) {
+            fs.mkdirSync(logsDir, { recursive: true }); // Crea la carpeta logs y sus subcarpetas si no existen
+        }
+
         fs.appendFile(logPath, formattedMessage, (err) => {
             if (err) {
                 console.error(`Failed to write to log file: ${err}`);
