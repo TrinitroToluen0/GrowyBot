@@ -17,12 +17,12 @@ async function getInviterId(member) {
     }
 
     if (user.inviterId) {
-        logger.debug(`Found the inviter of "${member.user.username}" from the database.`);
+        logger.info(`Found the inviter of "${member.user.username}" from the database.`);
         return user.inviterId;
     }
 
     if ((await checkBotPermissions(member.guild, PermissionsBitField.Flags.ManageGuild)) !== true) {
-        logger.debug(`Cannot find the inviter of ${member.user.username} because of missing permissions.`);
+        logger.info(`Cannot find the inviter of ${member.user.username} because of missing permissions.`);
         return null;
     }
 
@@ -31,7 +31,7 @@ async function getInviterId(member) {
 
     const usedInvite = fetchedInvites.find((inv) => cachedInvites.get(inv.code) < inv.uses);
     if (!usedInvite) {
-        logger.debug(`Cannot find the inviter of "${member.user.username}".`);
+        logger.info(`Cannot find the inviter of "${member.user.username}".`);
         return null;
     }
 
@@ -39,7 +39,7 @@ async function getInviterId(member) {
     client.invites.set(member.guild.id, cachedInvites);
     user.inviterId = usedInvite.inviter.id;
     await user.save();
-    logger.debug(`Found the inviter of "${member.user.username}" by calculating the code uses of the invitations.`);
+    logger.info(`Found the inviter of "${member.user.username}" by calculating the code uses of the invitations.`);
     return usedInvite.inviter.id;
 }
 
