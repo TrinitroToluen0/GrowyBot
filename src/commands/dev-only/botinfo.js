@@ -26,8 +26,8 @@ module.exports = {
                 { name: `${emojis.ping} Ping`, value: "```" + `${Math.round(interaction.client.ws.ping)}ms` + "```", inline: true },
                 { name: `${emojis.ram} Uso de RAM`, value: "```" + `${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)}MB` + "```", inline: true },
                 { name: `${emojis.node} Versión de Node.js`, value: "```" + process.version + "```", inline: true },
-                { name: `${emojis.server} Servidores`, value: "```" + `${interaction.client.guilds.cache.size}` + "```", inline: true },
-                { name: `${emojis.users} Miembros`, value: "```" + `${client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)}` + "```", inline: false }
+                { name: `${emojis.server} Conteo de servidores`, value: "```" + `${interaction.client.guilds.cache.size}` + "```", inline: true },
+                { name: `${emojis.user} Conteo de miembros`, value: "```" + `${client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)}` + "```", inline: false }
             )
             .setTimestamp();
 
