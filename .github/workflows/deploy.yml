@@ -32,7 +32,13 @@ jobs:
               run: |
                   rsync -r --delete-after --quiet --exclude 'src/config.js' --exclude '.env' $GITHUB_WORKSPACE/ admin@44.199.37.45:/home/admin/GrowyBot
 
+            - name: Check for dependency changes
+              id: deps
+              run: |
+                  echo "::set-output name=changed::$(git diff --name-only HEAD~1..HEAD | grep -E 'package.json|package-lock.json' || echo false)"
+
             - name: Install dependencies
+              if: steps.deps.outputs.changed != 'false'
               run: |
                   ssh admin@44.199.37.45 'cd /home/admin/GrowyBot && npm install'
 
