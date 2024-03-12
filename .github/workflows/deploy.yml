@@ -1,27 +1,32 @@
 name: Deploy to AWS Lightsail
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    deploy:
+        runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
 
-    - name: Install SSH key
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+            - name: Install SSH key
+              uses: webfactory/ssh-agent@v0.5.3
+              with:
+                  ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
 
-    - name: Deploy to Lightsail
-      run: |
-        rsync -r --delete-after --quiet --exclude 'src/config.js' --exclude '.env' $GITHUB_WORKSPACE/ admin@44.199.37.45:/home/admin/GrowyBot
+            - name: Add server to known hosts
+              run: |
+                  mkdir -p ~/.ssh
+                  ssh-keyscan -H 44.199.37.45 >> ~/.ssh/known_hosts
 
-    - name: Restart PM2 service
-      run: |
-        ssh admin@44.199.37.45 'pm2 restart growy'
+            - name: Deploy to Lightsail
+              run: |
+                  rsync -r --delete-after --quiet --exclude 'src/config.js' --exclude '.env' $GITHUB_WORKSPACE/ admin@44.199.37.45:/home/admin/GrowyBot
+
+            - name: Restart PM2 service
+              run: |
+                  ssh admin@44.199.37.45 'pm2 restart growy'
