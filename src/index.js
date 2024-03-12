@@ -1,9 +1,10 @@
 console.clear();
+const logger = require("./utils/logger.js");
+logger.info(`Current working directory: ${process.cwd()}`);
 require("./db.js");
 const { BOT_TOKEN } = require("./config.js");
 const { Client, Collection, GatewayIntentBits, Partials, TextChannel, PermissionsBitField } = require("discord.js");
 require("./utils/errorHandler.js");
-const logger = require("./utils/logger.js");
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
