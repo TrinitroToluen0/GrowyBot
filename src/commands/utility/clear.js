@@ -28,7 +28,7 @@ module.exports = {
                 }
             });
         } else {
-            messagesToDelete = messages.array().slice(0, amount);
+            messagesToDelete = messages;
         }
 
         const deletedMessages = await interaction.channel.bulkDelete(messagesToDelete, true);
