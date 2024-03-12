@@ -21,7 +21,7 @@ jobs:
             - name: Add server to known hosts
               run: |
                   mkdir -p ~/.ssh
-                  ssh-keyscan -H 44.199.37.45 >> ~/.ssh/known_hosts
+                  ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
             - name: Install rsync
               run: |
@@ -30,7 +30,7 @@ jobs:
 
             - name: Deploy to Lightsail
               run: |
-                  rsync -r --delete-after --quiet --exclude 'src/config.js' --exclude '.env' --exclude 'node_modules' $GITHUB_WORKSPACE/ admin@44.199.37.45:/home/admin/GrowyBot
+                  rsync -r --delete-after --quiet --exclude 'src/config.js' --exclude '.env' --exclude 'node_modules' $GITHUB_WORKSPACE/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PATH }}
 
             - name: Check for dependency changes
               id: deps
@@ -39,8 +39,8 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  ssh admin@44.199.37.45 'if [ ! -d "/home/admin/GrowyBot/node_modules" ] || [ "${{ steps.deps.outputs.changed }}" != "false" ]; then cd /home/admin/GrowyBot && npm install; fi'
+                  ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'if [ ! -d "${{ secrets.SERVER_PATH }}/node_modules" ] || [ "${{ steps.deps.outputs.changed }}" != "false" ]; then cd ${{ secrets.SERVER_PATH }} && npm install; fi'
 
             - name: Restart PM2 service
               run: |
-                  ssh admin@44.199.37.45 'pm2 restart growy'
+                  ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'pm2 restart growy'
