@@ -25,7 +25,6 @@ module.exports = {
                 value: "home",
                 emoji: "🏠",
                 embedDescription: homeHelper,
-                default: true,
             },
             {
                 label: "Invites",
@@ -71,19 +70,14 @@ module.exports = {
             },
         ];
 
-        const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`Do you need help? This is the place! \n\nStart by selecting the category you want to get help for.`);
+        const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(categories.find((category) => category.value === "home").embedDescription(interaction));
         const selectMenu = new StringSelectMenuBuilder()
             .setCustomId(interaction.id)
             .setPlaceholder("Select a category...")
             .setMaxValues(1)
             .addOptions(
                 categories.map((category) => {
-                    return new StringSelectMenuOptionBuilder()
-                        .setLabel(category.label)
-                        .setDescription(category.description)
-                        .setValue(category.value)
-                        .setEmoji(category.emoji)
-                        .setDefault(category.default ?? false);
+                    return new StringSelectMenuOptionBuilder().setLabel(category.label).setDescription(category.description).setValue(category.value).setEmoji(category.emoji);
                 })
             );
         const row = new ActionRowBuilder().addComponents(selectMenu);
