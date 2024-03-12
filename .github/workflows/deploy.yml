@@ -11,10 +11,10 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Install SSH key
-              uses: webfactory/ssh-agent@v0.5.3
+              uses: webfactory/ssh-agent@v0.5.4
               with:
                   ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
 
@@ -35,11 +35,11 @@ jobs:
             - name: Check for dependency changes
               id: deps
               run: |
-                  echo "::set-output name=changed::$(git diff --name-only HEAD~1..HEAD | grep -E 'package.json|package-lock.json' || echo false)"
+                  echo "changed=$(git diff --name-only HEAD~1..HEAD | grep -E 'package.json|package-lock.json' || echo false)" >> $GITHUB_ENV
 
             - name: Install dependencies
               run: |
-                  ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'if [ ! -d "${{ secrets.SERVER_PATH }}/node_modules" ] || [ "${{ steps.deps.outputs.changed }}" != "false" ]; then cd ${{ secrets.SERVER_PATH }} && npm install; fi'
+                  ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'if [ ! -d "${{ secrets.SERVER_PATH }}/node_modules" ] || [ "${{ env.changed }}" != "false" ]; then cd ${{ secrets.SERVER_PATH }} && npm install; fi'
 
             - name: Restart PM2 service
               run: |
