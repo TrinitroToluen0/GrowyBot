@@ -30,7 +30,7 @@ jobs:
 
             - name: Deploy to Lightsail
               run: |
-                  rsync -r --delete-after --quiet --exclude 'src/config.js' --exclude '.env' $GITHUB_WORKSPACE/ admin@44.199.37.45:/home/admin/GrowyBot
+                  rsync -r --delete-after --quiet --exclude 'src/config.js' --exclude '.env' --exclude 'node_modules' $GITHUB_WORKSPACE/ admin@44.199.37.45:/home/admin/GrowyBot
 
             - name: Check for dependency changes
               id: deps
@@ -38,9 +38,8 @@ jobs:
                   echo "::set-output name=changed::$(git diff --name-only HEAD~1..HEAD | grep -E 'package.json|package-lock.json' || echo false)"
 
             - name: Install dependencies
-              if: steps.deps.outputs.changed != 'false'
               run: |
-                  ssh admin@44.199.37.45 'cd /home/admin/GrowyBot && npm install'
+                  ssh admin@44.199.37.45 'if [ ! -d "/home/admin/GrowyBot/node_modules" ] || [ "${{ steps.deps.outputs.changed }}" != "false" ]; then cd /home/admin/GrowyBot && npm install; fi'
 
             - name: Restart PM2 service
               run: |
