@@ -90,11 +90,11 @@ const economyHelper = async (interaction) => {
 This is a currency system that allows users to buy items on your guild shop configured by you.
 
 ## :question: How can my users earn money?
-As you might see, there are a few modules that allow users to earn money in your server. 
-With the boost rewarder module, users can earn money bumping the server, with the boost 
-rewarder module, users can earn money daily by boosting the server. With the invites module, 
-users can earn money inviting othe users to your server. There is also a few commands to give 
-money to your users manually.
+As you might see, there are a few modules that allow users to earn money in your 
+server. With the boost rewarder module, users can earn money bumping the server, 
+with the boost rewarder module, users can earn money daily by boosting the server. 
+With the invites module, users can earn money inviting othe users to your server. 
+There is also a few commands to give money to your users manually.
 
 ## :question: How can my users spend money?
 You can set a shop and add items to it with the command </shop-add:1213246942776262686>, you can set a price and users can pay for it.
