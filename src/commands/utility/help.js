@@ -9,7 +9,7 @@ const {
     ComponentType,
 } = require("discord.js");
 const { nitro } = require("../../utils/emojis.json");
-const { invitesHelper, boostRewarderHelper, bumpReminderHelper, economyHelper, interchatHelper, utilityHelper } = require("../../helpers/commandHelpers.js");
+const { homeHelper, invitesHelper, boostRewarderHelper, bumpReminderHelper, economyHelper, interchatHelper, utilityHelper } = require("../../helpers/commandHelpers.js");
 
 module.exports = {
     category: "utility",
@@ -19,6 +19,14 @@ module.exports = {
 
     async execute(interaction) {
         const categories = [
+            {
+                label: "Home",
+                description: "The home of the help command.",
+                value: "home",
+                emoji: "🏠",
+                embedDescription: homeHelper,
+                default: true,
+            },
             {
                 label: "Invites",
                 description: "Reward users for inviting other users.",
@@ -70,7 +78,12 @@ module.exports = {
             .setMaxValues(1)
             .addOptions(
                 categories.map((category) => {
-                    return new StringSelectMenuOptionBuilder().setLabel(category.label).setDescription(category.description).setValue(category.value).setEmoji(category.emoji);
+                    return new StringSelectMenuOptionBuilder()
+                        .setLabel(category.label)
+                        .setDescription(category.description)
+                        .setValue(category.value)
+                        .setEmoji(category.emoji)
+                        .setDefault(category.default ?? false);
                 })
             );
         const row = new ActionRowBuilder().addComponents(selectMenu);

@@ -1,7 +1,7 @@
 const { Events, Collection, EmbedBuilder, PermissionsBitField, Colors } = require("discord.js");
 const logger = require("../utils/logger.js");
 const checkBotPermissions = require("../helpers/checkBotPermissions.js");
-const { DEV_USER_ID } = require("../config.js");
+const { DEV_USER_ID, SUPPORT_SERVER_INVITE } = require("../config.js");
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -68,7 +68,9 @@ module.exports = {
             await command.execute(interaction);
         } catch (error) {
             logger.error(error);
-            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("There was an error while executing this command!");
+            const embed = new EmbedBuilder()
+                .setColor(Colors.Red)
+                .setDescription(`There was an error while executing this command! \n\nIf this issue persists, please report it in our [support server](${SUPPORT_SERVER_INVITE}).`);
             if (interaction.replied || interaction.deferred) {
                 return await interaction.followUp({ embeds: [embed], ephemeral: true });
             }

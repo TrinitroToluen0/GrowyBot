@@ -1,4 +1,16 @@
 const { nitro, goldCoin, commands } = require("../utils/emojis.json");
+const { SUPPORT_SERVER_INVITE } = require("../config.js");
+
+const homeHelper = async (interaction) => {
+    return `Do you need help? This is the place! 
+    
+Start by selecting the category you want to get help for.
+
+## 🔗 The nexus
+[Support server](${SUPPORT_SERVER_INVITE}) • [Invite me](https://discord.com/oauth2/authorize?client_id=1195233538115637308&permissions=537266233&scope=bot)
+
+    `;
+};
 
 const invitesHelper = async (interaction) => {
     const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
@@ -90,11 +102,7 @@ const economyHelper = async (interaction) => {
 This is a currency system that allows users to buy items on your guild shop configured by you.
 
 ## :question: How can my users earn money?
-As you might see, there are a few modules that allow users to earn money in your 
-server. With the boost rewarder module, users can earn money bumping the server, 
-with the boost rewarder module, users can earn money daily by boosting the server. 
-With the invites module, users can earn money inviting othe users to your server. 
-There is also a few commands to give money to your users manually.
+As you might see, there are a few modules that allow users to earn money in your server. With the boost rewarder module, users can earn money bumping the server, with the boost rewarder module, users can earn money daily by boosting the server. With the invites module, users can earn money inviting othe users to your server. There is also a few commands to give money to your users manually.
 
 ## :question: How can my users spend money?
 You can set a shop and add items to it with the command </shop-add:1213246942776262686>, you can set a price and users can pay for it.
@@ -154,6 +162,7 @@ const utilityHelper = async (interaction) => {
 };
 
 module.exports = {
+    homeHelper,
     invitesHelper,
     boostRewarderHelper,
     bumpReminderHelper,

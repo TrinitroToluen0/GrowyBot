@@ -1,6 +1,5 @@
 console.clear();
 const logger = require("./utils/logger.js");
-logger.info(`Current working directory: ${process.cwd()}`);
 require("./db.js");
 const { BOT_TOKEN } = require("./config.js");
 const { Client, Collection, GatewayIntentBits, Partials, TextChannel, PermissionsBitField } = require("discord.js");

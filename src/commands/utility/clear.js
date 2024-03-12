@@ -35,7 +35,7 @@ module.exports = {
         const embed = new EmbedBuilder().setColor(Colors.Blue);
 
         if (deletedMessages.size === 0) {
-            embed.setDescription(`"I didn't delete any messages. Make sure the messages you tried to delete are not more than 2 weeks old.`);
+            embed.setDescription(`I didn't delete any messages. Make sure the messages you tried to delete are not more than 2 weeks old.`);
         } else {
             const message = user ? `I have deleted ${deletedMessages.size} messages from <@${user.id}>` : `I have deleted ${deletedMessages.size} messages.`;
             embed.setDescription(message);
