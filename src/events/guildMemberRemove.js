@@ -9,7 +9,7 @@ module.exports = {
     async execute(client, member) {
         try {
             if (member.bot) return;
-            const guildConfig = client.getGuildConfig(member.guild.id);
+            const guildConfig = await client.getGuildConfig(member.guild.id);
             const inviterId = await getInviterId(member);
             await farewellMember(member, inviterId);
             let inviter = await User.findOne({ userId: inviterId, guildId: member.guild.id });
