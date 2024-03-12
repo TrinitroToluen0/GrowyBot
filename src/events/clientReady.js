@@ -53,7 +53,7 @@ const printReady = (client) => {
     console.log(`
 -------------------------------------------------------------
 Nombre: ${client.user.tag}
-Conectado en: ${client.guilds.cache.size} servidores y leyendo a ${client.users.cache.size} usuarios.
+Conectado en: ${client.guilds.cache.size} servidores y leyendo a ${client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)} usuarios.
 Versión de node.js: ${process.version}
 Versión de discord.js: ${discordVersion}
 -------------------------------------------------------------`);
