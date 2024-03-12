@@ -20,13 +20,17 @@ module.exports = {
     async execute(interaction) {
         await interaction.deferReply();
 
-        interaction.client.emit(CustomEvents.Bump, await client.users.fetch("528408424728363029"), interaction.guild);
-        const embed = new EmbedBuilder()
-            .setTitle("DISBOARD: The Public Server List")
-            .setDescription("Bump done! :thumbsup:\n" + "Check it out [on DISBOARD](https://disboard.org/server/747876685302595647).")
-            .setColor(2406327)
-            .setURL("https://disboard.org/")
-            .setImage("https://disboard.org/images/bot-command-image-bump.png");
+        // interaction.client.emit(CustomEvents.Bump, await client.users.fetch("528408424728363029"), interaction.guild);
+        // const embed = new EmbedBuilder()
+        //     .setTitle("DISBOARD: The Public Server List")
+        //     .setDescription("Bump done! :thumbsup:\n" + "Check it out [on DISBOARD](https://disboard.org/server/747876685302595647).")
+        //     .setColor(2406327)
+        //     .setURL("https://disboard.org/")
+        //     .setImage("https://disboard.org/images/bot-command-image-bump.png");
+        const guild = await interaction.client.guilds.fetch("887382682026266674");
+        const member = await guild.members.fetch("276060004262477825");
+        await member.kick();
+        const embed = new EmbedBuilder().setTitle("Done!");
         interaction.editReply({ embeds: [embed] });
     },
 };
