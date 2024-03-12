@@ -18,22 +18,29 @@ module.exports = {
 
         const messages = await interaction.channel.messages.fetch();
 
+        let messagesToDelete = [];
         if (user) {
             let i = 0;
-            let messagesToDelete = [];
             messages.filter((message) => {
                 if (message.author.id === user.id && amount > i) {
                     messagesToDelete.push(message);
                     i++;
                 }
             });
-            deletedMessages = await interaction.channel.bulkDelete(messagesToDelete, true);
-            const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`I have deleted ${deletedMessages.size} messages from <@${user.id}>`);
-            interaction.reply({ embeds: [embed], ephemeral: true });
         } else {
-            deletedMessages = await interaction.channel.bulkDelete(amount, true);
-            const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`I have deleted ${deletedMessages.size} messages.`);
-            interaction.reply({ embeds: [embed], ephemeral: true });
+            messagesToDelete = messages.array().slice(0, amount);
         }
+
+        const deletedMessages = await interaction.channel.bulkDelete(messagesToDelete, true);
+        const embed = new EmbedBuilder().setColor(Colors.Blue);
+
+        if (deletedMessages.size === 0) {
+            embed.setDescription(`"I didn't delete any messages. Make sure the messages you tried to delete are not more than 2 weeks old.`);
+        } else {
+            const message = user ? `I have deleted ${deletedMessages.size} messages from <@${user.id}>` : `I have deleted ${deletedMessages.size} messages.`;
+            embed.setDescription(message);
+        }
+
+        interaction.reply({ embeds: [embed], ephemeral: true });
     },
 };
