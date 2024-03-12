@@ -4,6 +4,7 @@ const Guild = require("../models/GuildModel.js");
 const { join } = require("../utils/emojis.json");
 const cheerio = require("cheerio");
 const logger = require("../utils/logger.js");
+const { INTERCHAT_MOD_TEAM } = require("../config.js");
 
 const sendToInterchat = async (message, server) => {
     let toSend;
@@ -86,7 +87,7 @@ const parseMessageObject = async (message) => {
             if (index === 0 && embeds.length > 0) {
                 embed = embeds[0];
             }
-            console.debug("ATTACHMENT CONTENT TYPE: ", attachment.contentType);
+
             if (["image/jpeg", "image/jpg", "image/gif", "image/png"].includes(attachment.contentType)) {
                 embed.setImage(attachment.url);
             } else if (["audio/ogg", "video/mp4"].includes(attachment.contentType)) {
@@ -107,11 +108,11 @@ const parseMessageObject = async (message) => {
     }
 
     embeds.forEach((embed) => {
-        embed
-            .setColor(Colors.Blue)
-            .setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL(), url: `https://discord.com/users/${message.author.id}` })
-            .setFooter({ text: `${message.guild.name}  •  ${message.guild.memberCount} members`, iconURL: message.guild.iconURL() })
-            .setURL(message.url);
+        embed.setColor(Colors.Blue);
+        embed.setAuthor({ name: message.author.username, iconURL: message.author.displayAvatarURL(), url: `https://discord.com/users/${message.author.id}` });
+        embed.setFooter({ text: `${message.guild.name}  •  ${message.guild.memberCount} members`, iconURL: message.guild.iconURL() });
+        embed.setURL(message.url);
+        if (INTERCHAT_MOD_TEAM.includes(message.author.id)) embed.setThumbnail("https://cdn.discordapp.com/emojis/1201689402959736886.png");
     });
 
     return {
