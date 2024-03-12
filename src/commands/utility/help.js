@@ -70,7 +70,7 @@ module.exports = {
             },
         ];
 
-        const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(categories[0].embedDescription(interaction));
+        const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(await categories.find((category) => category.value === "home").embedDescription(interaction));
         const selectMenu = new StringSelectMenuBuilder()
             .setCustomId(interaction.id)
             .setPlaceholder("Select a category...")

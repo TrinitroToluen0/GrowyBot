@@ -2,7 +2,7 @@ const { nitro, goldCoin, commands } = require("../utils/emojis.json");
 const { SUPPORT_SERVER_INVITE } = require("../config.js");
 
 const homeHelper = async (interaction) => {
-    return `Do you need help? This is the place! 
+    return `# ❓ Need help? This is the place! 
     
 Start by selecting the category you want to get help for.
 
