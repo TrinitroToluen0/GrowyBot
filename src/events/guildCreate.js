@@ -12,6 +12,11 @@ module.exports = {
             guildConfig.botPresent = true;
             await guildConfig.save();
             await checkPerms(guild);
+            // Fetch and cache the invites of the new guild
+            if (await checkBotPermissions(guild, [PermissionsBitField.Flags.ManageGuild])) {
+                const invites = await guild.invites.fetch();
+                client.invites.set(guild.id, invites);
+            }
         } catch (error) {
             logger.error("OnGuildCreate failed: ", error);
         }
