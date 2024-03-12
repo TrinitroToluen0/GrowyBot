@@ -70,7 +70,7 @@ module.exports = {
             logger.error(error);
             const embed = new EmbedBuilder()
                 .setColor(Colors.Red)
-                .setDescription(`There was an error while executing this command! \n\nIf this issue persists, please report it in our [support server](${SUPPORT_SERVER_INVITE}).`);
+                .setDescription(`There was an error while executing this command! \n\nIf this issue persists, please report it in our [Support server](${SUPPORT_SERVER_INVITE})`);
             if (interaction.replied || interaction.deferred) {
                 return await interaction.followUp({ embeds: [embed], ephemeral: true });
             }
