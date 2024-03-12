@@ -23,6 +23,11 @@ jobs:
                   mkdir -p ~/.ssh
                   ssh-keyscan -H 44.199.37.45 >> ~/.ssh/known_hosts
 
+            - name: Install rsync
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y rsync
+
             - name: Deploy to Lightsail
               run: |
                   rsync -r --delete-after --quiet --exclude 'src/config.js' --exclude '.env' $GITHUB_WORKSPACE/ admin@44.199.37.45:/home/admin/GrowyBot
