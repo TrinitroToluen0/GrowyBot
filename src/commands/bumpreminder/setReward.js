@@ -24,7 +24,6 @@ module.exports = {
         let bumpReward = interaction.options.getNumber("amount");
         guildConfig.bumpReward = bumpReward;
         await guildConfig.save();
-        interaction.client.guildConfigConfigs.set(interaction.guild.id, guildConfig);
 
         const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The bump reward has ben set to ${goldCoin} \`${bumpReward}\``);
 
