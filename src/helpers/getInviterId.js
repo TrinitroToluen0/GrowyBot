@@ -31,7 +31,7 @@ async function getInviterId(member) {
 
     const usedInvite = fetchedInvites.find((inv) => cachedInvites.get(inv.code) < inv.uses);
     if (!usedInvite) {
-        logger.info(`Cannot find the inviter of "${member.user.username}".`);
+        logger.info(`Cannot find the inviter of "${member.user.username}". Is bot: ${member.bot}`);
         return null;
     }
 
