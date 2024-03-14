@@ -1,4 +1,4 @@
-const { Interaction, EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Colors } = require("discord.js");
+const { Interaction, SlashCommandBuilder, PermissionsBitField, EmbedBuilder, Colors } = require("discord.js");
 const logger = require("../../utils/logger");
 const User = require("../../models/UserModel.js");
 const { goldCoin, invitation } = require("../../utils/emojis.json");
