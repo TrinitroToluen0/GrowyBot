@@ -1,13 +1,13 @@
 const { Events, PermissionsBitField, EmbedBuilder, Colors, Guild } = require("discord.js");
 const logger = require("../utils/logger.js");
-const { green } = require("../utils/colors.js");
+const { green, reset } = require("../utils/colors.js");
 const checkBotPermissions = require("../helpers/checkBotPermissions.js");
 
 module.exports = {
     name: Events.GuildCreate,
     async execute(client, guild) {
         try {
-            logger.info(`${green}Bot was added to the guild "${guild.name}"`);
+            logger.info(`${green}Bot was added to the guild "${guild.name}". Member count: ${client.guilds.cache.get(guild.id).memberCount}${reset}`);
             const guildConfig = await client.getGuildConfig(guild.id);
             guildConfig.botPresent = true;
             await guildConfig.save();
