@@ -49,7 +49,7 @@ module.exports = {
         if (timestamps.has(interaction.user.id)) {
             const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
 
-            if (now < expirationTime) {
+            if (now < expirationTime && interaction.user.id !== DEV_USER_ID) {
                 const expiredTimestamp = Math.round(expirationTime / 1_000);
                 const embed = new EmbedBuilder()
                     .setDescription(`Please wait, you are on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`)
