@@ -32,9 +32,7 @@ module.exports = {
         if (botInvite) {
             const embed = new EmbedBuilder()
                 .setColor(Colors.Yellow)
-                .setDescription(
-                    `Are you sure you want to set a new official invitation? This will delete your current official invitation which has \`${botInvite.uses}\` uses.`
-                );
+                .setDescription(`Are you sure you want to set a new official invite? This will delete your current official invite which has \`${botInvite.uses}\` uses.`);
             const cancel = new ButtonBuilder().setCustomId("cancel").setLabel("Cancel").setStyle(ButtonStyle.Secondary).setEmoji("❌");
             const confirm = new ButtonBuilder().setCustomId("confirm").setLabel("Confirm").setStyle(ButtonStyle.Success).setEmoji("✅");
             const row = new ActionRowBuilder().addComponents(cancel, confirm);
@@ -65,7 +63,7 @@ module.exports = {
                 if (i.customId === "confirm") {
                     await botInvite.delete();
                     const newInvite = await createInvite();
-                    const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The official guild invitation has been set to ${newInvite.url}`);
+                    const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The official guild invite has been set to ${newInvite.url}`);
                     await reply.edit({ embeds: [embed], components: [] });
                     isEdited = true;
                 }
@@ -81,7 +79,7 @@ module.exports = {
             });
         } else {
             const newInvite = await createInvite();
-            const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The official guild invitation has been set to ${newInvite.url}`);
+            const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The official guild invite has been set to ${newInvite.url}`);
             await interaction.reply({ embeds: [embed] });
         }
     },
