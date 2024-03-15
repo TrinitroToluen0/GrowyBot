@@ -26,7 +26,6 @@ module.exports = {
         await guildConfig.save();
 
         const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The bump reward has ben set to ${goldCoin} \`${bumpReward}\``);
-
         await interaction.reply({ embeds: [embed] });
     },
 };
