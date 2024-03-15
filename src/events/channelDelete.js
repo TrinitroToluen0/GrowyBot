@@ -27,8 +27,8 @@ module.exports = {
                 updated = true;
             }
 
-            if (guildConfig.interchatChannel === channel.id) {
-                guildConfig.interchatChannel = null;
+            if (guildConfig.interchatChannels.map((interchatChannel) => interchatChannel.id).includes(channel.id)) {
+                guildConfig.interchatChannels = guildConfig.interchatChannels.filter((interchatChannel) => interchatChannel.id !== channel.id);
                 updated = true;
             }
 

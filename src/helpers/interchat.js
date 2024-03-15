@@ -6,6 +6,7 @@ const cheerio = require("cheerio");
 const logger = require("../utils/logger.js");
 const { INTERCHAT_MOD_TEAM } = require("../config.js");
 
+// The main function
 const sendToInterchat = async (message, server) => {
     let toSend;
 
@@ -22,6 +23,7 @@ const sendToInterchat = async (message, server) => {
     await broadcast(toSend, server);
 };
 
+// The function that parses the message object into an embed.
 const parseMessageObject = async (message) => {
     if (!(message instanceof Message)) {
         throw new Error("The provided message is not a valid instance of Message.");
@@ -124,16 +126,19 @@ const parseMessageObject = async (message) => {
     };
 };
 
+// The function that actually broadcasts a message to the interchat
 const broadcast = async (message, server) => {
     const { content, embeds, components, files, guildId } = message;
     const { client } = global;
 
-    const guilds = await Guild.find({ "interchatChannel.server": server, "interchatChannel.id": { $exists: true, $ne: null }, botPresent: true });
+    const guilds = await Guild.find({ "interchatChannels.server": server, "interchatChannels.id": { $exists: true, $ne: null }, botPresent: true });
     guilds.forEach(async (guild) => {
         const discordGuild = await client.guilds.fetch(guild.guildId);
         if ((await checkBotPermissions(discordGuild, PermissionsBitField.Flags.ManageWebhooks)) !== true) return false;
 
-        const channel = await client.channels.fetch(guild.interchatChannel.id);
+        const interchatChannelObject = guild.interchatChannels.find((channel) => channel.server === server);
+        const channel = await client.channels.fetch(interchatChannelObject.id);
+
         const webhooks = await channel.fetchWebhooks();
         let webhook = webhooks.find((hook) => hook.owner.id === client.user.id);
 

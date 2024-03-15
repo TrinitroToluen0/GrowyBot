@@ -1,6 +1,7 @@
 const { Events } = require("discord.js");
 const sendToInterchat = require("../helpers/interchat.js");
 const CustomEvents = require("../helpers/customEvents.js");
+const logger = require("../utils/logger.js");
 
 module.exports = {
     name: Events.MessageCreate,
@@ -12,8 +13,11 @@ module.exports = {
         if (message.author.bot) return;
 
         const guildConfig = await client.getGuildConfig(message.guild.id);
-        if (message.channel.id === guildConfig.interchatChannel.id) {
-            sendToInterchat(message, guildConfig.interchatChannel.server);
+        const interchatChannels = guildConfig.interchatChannels.map((channel) => channel.id);
+
+        if (interchatChannels.includes(message.channel.id)) {
+            const server = guildConfig.interchatChannels.find((channel) => channel.id === message.channel.id).server;
+            sendToInterchat(message, server);
         }
     },
 };

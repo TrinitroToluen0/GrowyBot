@@ -50,13 +50,14 @@ const guildSchema = new mongoose.Schema(
             default: 5,
             min: 0,
         },
-        interchatChannel: {
-            id: String,
-            server: {
-                type: String,
-                enum: ["English", "Español"],
+        interchatChannels: [
+            {
+                id: String,
+                server: {
+                    type: String,
+                },
             },
-        },
+        ],
         shopChannel: String,
         shopWebhook: String,
     },

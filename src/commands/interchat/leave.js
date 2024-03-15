@@ -12,21 +12,29 @@ module.exports = {
     async execute(interaction) {
         const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
 
-        if (!guildConfig.interchatChannel) {
+        if (!guildConfig.interchatChannels || guildConfig.interchatChannels.length === 0) {
             const embed = new EmbedBuilder().setColor(Colors.Red).setDescription(`There is no interchat server to leave.`);
             return await interaction.reply({ embeds: [embed] });
         }
 
-        let reference = { ...guildConfig.interchatChannel };
+        const interchatChannel = guildConfig.interchatChannels.find((channel) => channel.id === interaction.channel.id);
 
-        guildConfig.interchatChannel = null;
+        if (!interchatChannel) {
+            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription(`The channel <#${interaction.channel.id}> is not an interchat channel.`);
+            return await interaction.reply({ embeds: [embed] });
+        }
+
+        const serverName = interchatChannel.server;
+
+        // Remove the interchat channel from the guildConfig
+        guildConfig.interchatChannels = guildConfig.interchatChannels.filter((channel) => channel.id !== interaction.channel.id);
         await guildConfig.save();
 
         // Send a confirmation message
         const embed = new EmbedBuilder()
             .setColor(Colors.Green)
             .setDescription(
-                `You successfully left the server \`${reference.server}\` in the channel <#${reference.id}>. You will no longer receive messages from another guilds.`
+                `You successfully left the server \`${serverName}\` in the channel <#${interaction.channel.id}>. You will no longer receive messages from another guilds.`
             );
         await interaction.reply({ embeds: [embed] });
     },
