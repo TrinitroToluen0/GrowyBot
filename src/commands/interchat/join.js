@@ -13,7 +13,6 @@ const {
 const sendToInterchat = require("../../helpers/interchat.js");
 const { join } = require("../../utils/emojis.json");
 const Guild = require("../../models/GuildModel.js");
-const logger = require("../../utils/logger.js");
 
 module.exports = {
     category: "interchat",
