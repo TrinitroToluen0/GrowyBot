@@ -30,7 +30,7 @@ jobs:
 
             - name: Deploy to Lightsail
               run: |
-                  rsync -r --delete-after --quiet --exclude 'src/config.js' --exclude '.env' --exclude 'node_modules' $GITHUB_WORKSPACE/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PATH }}
+                  rsync -r --delete-after --quiet --exclude '.env' --exclude 'node_modules' --exclude 'logs' $GITHUB_WORKSPACE/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.SERVER_PATH }}
 
             - name: Check for dependency changes
               id: deps
