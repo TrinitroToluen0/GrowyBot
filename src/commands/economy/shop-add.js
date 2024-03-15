@@ -72,6 +72,6 @@ module.exports = {
             await shop.save();
             embed.setColor(Colors.Green).setDescription("You successfully added a new item to the guild shop.");
             modalInteraction.reply({ embeds: [embed], ephemeral: true });
-        } catch (error) {}
+        } catch {}
     },
 };
