@@ -116,7 +116,12 @@ module.exports = {
             .setDescription(
                 `Great! I have set the channel <#${channel.id}> as an interchat channel, You can now receive messages from other Discord guilds that have also joined the server \`${server}\`.`
             );
-        await interaction.reply({ embeds: [embed], components: [] });
+
+        if (interaction.replied || interaction.deferred) {
+            await interaction.followUp({ embeds: [embed], components: [] });
+        } else {
+            await interaction.reply({ embeds: [embed], components: [] });
+        }
 
         embed.setDescription(`The guild **${interaction.guild.name}** has joined to the interchat!\n\n${interaction.guild.description ? interaction.guild.description : ""}`);
         embed.setImage(interaction.guild.iconURL({ format: "png", dynamic: true, size: 2048 }));
