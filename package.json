@@ -4,8 +4,8 @@
     "description": "",
     "main": "src/index.js",
     "scripts": {
-        "start": "node .",
-        "dev": "nodemon ."
+        "start": "cross-env NODE_ENV=production node .",
+        "dev": "cross-env NODE_ENV=development nodemon ."
     },
     "keywords": [],
     "author": "",
@@ -19,6 +19,7 @@
     },
     "devDependencies": {
         "@faker-js/faker": "^8.3.1",
+        "cross-env": "^7.0.3",
         "eslint": "^8.56.0",
         "nodemon": "^3.0.2"
     }
