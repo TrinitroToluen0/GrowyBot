@@ -29,7 +29,7 @@ module.exports = {
 
         if (messageAuthor !== interaction.user.id) {
             if (INTERCHAT_MOD_TEAM.includes(interaction.user.id)) {
-                description = `${moderator} This message was deleted by the Growy moderation team.`;
+                description = `${moderator} This message was deleted by the interchat moderation team.`;
             } else {
                 const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("You cannot delete this message.");
                 return await interaction.reply({ embeds: [embed], ephemeral: true });

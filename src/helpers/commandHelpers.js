@@ -153,7 +153,7 @@ recommended that your interchat channel is specifically created for interchat pu
 const utilityHelper = async (interaction) => {
     return `# 🧰 Utility category \n\n
 ## ${commands} Available commands
-- </inviteme:1201445092255338585> Invite the Growy Bot to your Discord server.
+- </inviteme:1201445092255338585> Invite me to your Discord server.
 - </clear:1202746886407196732> Delete messages from a channel.
 - </lock:1216251868796289055> Disables @everyone to send messages in specific channel.
 - </unlock:1216254790460375092> Allows @everyone to send messages in specific channel.

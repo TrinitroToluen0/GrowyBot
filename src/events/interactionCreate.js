@@ -27,7 +27,7 @@ module.exports = {
                 const isAdmin = interaction.member.permissions.has(PermissionsBitField.Flags.Administrator);
                 let description = `I'm unable to execute this command because I lack the following permissions:\n\n ${missingPermissions.join(", ")}`;
                 if (isAdmin) {
-                    description += `\n\n Please go to \`Server settings > Roles > Growy\` and grant me these permissions. If you don't find a \"Growy\" role, create one and assign it to me. Otherwise, this command won't work on your guild.`;
+                    description += `\n\n Please go to \`Server settings > Roles > ${client.user.username}\` and grant me these permissions. If you don't find a \"${client.user.username}\" role, create one and assign it to me. Otherwise, this command won't work on your guild.`;
                 }
                 const embed = new EmbedBuilder().setDescription(description).setColor(Colors.Red);
                 interaction.reply({ embeds: [embed], ephemeral: isAdmin });

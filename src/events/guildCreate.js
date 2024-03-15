@@ -47,11 +47,11 @@ async function checkPerms(guild) {
         .setDescription(
             `Hello, dear owner of \`${guild.name}\`. I am missing some important permissions on your guild that I need to work properly. 
 
-            Please go to \`Server settings > Roles > Growy\` and grant me the following permissions:
+            Please go to \`Server settings > Roles > ${client.user.username}\` and grant me the following permissions:
 
             ${missingPermissions.join(", ")}
 
-            If you don't find a "Growy" role, please create one and assign it to me. Otherwise, most of my features won't work on your guild.`
+            If you don't find a "${client.user.username}" role, please create one and assign it to me. Otherwise, most of my features won't work on your guild.`
         )
         .setColor(Colors.Red);
     owner.send({ embeds: [embed] });
