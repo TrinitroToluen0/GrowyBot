@@ -18,7 +18,14 @@ module.exports = {
      */
     async execute(interaction) {
         const guildId = interaction.options.getString("id") || interaction.guild.id;
-        const guild = await interaction.client.guilds.fetch(guildId);
+        let guild;
+
+        try {
+            guild = await interaction.client.guilds.fetch(guildId);
+        } catch {
+            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("I am not present in that guild.");
+            return interaction.reply({ embeds: [embed], ephemeral: true });
+        }
 
         if (!guild.members.me.permissions.has(PermissionsBitField.Flags.ManageGuild)) {
             const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("I don't have permissions to get the invites of that guild.");
