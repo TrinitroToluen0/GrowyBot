@@ -61,12 +61,13 @@ module.exports = {
         if (!officialInvite) {
             const embed = new EmbedBuilder()
                 .setColor(Colors.Blue)
-                .setDescription(`Would you like to set an official invite first? This will show a "Join guild" button whenever your members chat on the interchat.`);
+                .setDescription(`Would you like to set an official invite first? This will show a "Join guild" button whenever your members chat on the interchat.`)
+                .setImage("https://i.imgur.com/P4P3hdt.png");
             const yesButton = new ButtonBuilder().setCustomId("yes").setLabel("Yes, set an official invite.").setEmoji("✅").setStyle(ButtonStyle.Success);
             const noButton = new ButtonBuilder().setCustomId("no").setLabel("No, continue without official invite.").setEmoji("❌").setStyle(ButtonStyle.Secondary);
             const row = new ActionRowBuilder().addComponents(yesButton, noButton);
             const reply = await interaction.reply({ embeds: [embed], components: [row] });
-            const collector = reply.createMessageComponentCollector({ filter: (i) => i.user.id === interaction.user.id, componentType: ComponentType.Button, time: 10_000 });
+            const collector = reply.createMessageComponentCollector({ filter: (i) => i.user.id === interaction.user.id, componentType: ComponentType.Button, time: 60_000 });
 
             let updated = false;
             await new Promise((resolve, reject) => {
