@@ -9,9 +9,7 @@ module.exports = {
     data: new SlashCommandBuilder().setName("money-leaderboard").setDescription("Displays the top 10 users with the most money of the guild.").setDMPermission(false),
 
     async execute(interaction) {
-        const users = await User.find({ guildId: interaction.guild.id, money: { $gte: 1 } })
-            .sort({ money: -1 })
-            .limit(10);
+        const users = await User.find({ guildId: interaction.guild.id }).sort({ money: -1 }).limit(10);
 
         if (users.length <= 0) {
             const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`The leaderboard is currently empty.`);
@@ -20,7 +18,7 @@ module.exports = {
 
         let top = [];
         for (let i = 0; i < users.length; i++) {
-            top.push(`#${i + 1} | <@!${users[i].userId}> Money: \`${users[i].money}\`\n`);
+            top.push(`**${i + 1}.** <@!${users[i].userId}> Money: \`${users[i].money}\`\n`);
         }
 
         // Buscar la posición del usuario en la lista completa de usuarios ordenados por dinero
