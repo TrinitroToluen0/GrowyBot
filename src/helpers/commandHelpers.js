@@ -131,7 +131,7 @@ You can set a shop and add items to it with the command </shop-add:1213246942776
 
 const interchatHelper = async (interaction) => {
     const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
-    return `# 🌐 Interchat category
+    let interchatInfo = `# 🌐 Interchat category
 
 ## :question: How it works?
 With this module, you have the ability to chat with other Discord servers. To do so, simply join an interchat server using the command </interchat-join:1201445092255338578>. It is 
@@ -144,10 +144,15 @@ recommended that your interchat channel is specifically created for interchat pu
 ## 🤔 To consider
 - Discord Embeds have limitations. If your message exceeds those limitations, your message won't be posted.
 
-## ⚙️ Actual configuration
-- Channel ➞ ${guildConfig.interchatChannel.id ? `<#${guildConfig.interchatChannel.id}>` : "None"}
-- Server ➞ ${guildConfig.interchatChannel.server ? `\`${guildConfig.interchatChannel.server}\`` : "None"}
-`;
+## ⚙️ Actual configuration`;
+    if (guildConfig.interchatChannels.length > 0) {
+        guildConfig.interchatChannels.forEach((interchatChannel) => {
+            interchatInfo += `\nChannel ➞ <#${interchatChannel.id}> \nServer ➞ \`${interchatChannel.server}\`\n`;
+        });
+    } else {
+        interchatInfo += `\nChannel ➞ None\nServer ➞ None`;
+    }
+    return interchatInfo;
 };
 
 const utilityHelper = async (interaction) => {

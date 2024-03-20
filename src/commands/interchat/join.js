@@ -39,18 +39,24 @@ module.exports = {
      */
     async execute(interaction) {
         const guildConfig = await interaction.client.getGuildConfig(interaction.guild.id);
-        let server = interaction.options.getString("server");
+        const server = interaction.options.getString("server");
         let channel = interaction.options.getChannel("channel");
-        if (channel && !client.canSendMessages(channel)) {
-            const embed = new EmbedBuilder().setColor(Colors.Red).setDescription(`Make sure I have permissions to view and send messages to <#${channel.id}>.`);
+
+        const embed = new EmbedBuilder().setColor(Colors.Red);
+
+        if (channel && !interaction.client.canSendMessages(channel)) {
+            embed.setDescription(`Make sure I have permissions to view and send messages to <#${channel.id}>.`);
             return interaction.reply({ embeds: [embed] });
         }
 
         const existingChannel = await Guild.findOne({ "interchatChannels.server": server, guildId: interaction.guild.id });
         if (existingChannel) {
-            const embed = new EmbedBuilder()
-                .setColor(Colors.Red)
-                .setDescription(`A channel for the server \`${server}\` already exists on this Discord server. You cannot have two channels joined to the interchat same server.`);
+            embed.setDescription(`A channel for the server \`${server}\` already exists on this Discord server. You cannot have two channels joined to the interchat same server.`);
+            return interaction.reply({ embeds: [embed] });
+        }
+
+        if (channel && (await Guild.findOne({ "interchatChannels.id": channel.id, guildId: interaction.guild.id }))) {
+            embed.setDescription(`The channel <#${channel.id}> is already set as an interchat channel. A channel cannot be set as an interchat channel for more than one server.`);
             return interaction.reply({ embeds: [embed] });
         }
 
@@ -112,7 +118,7 @@ module.exports = {
         await guildConfig.save();
 
         // Send a confirmation message
-        const embed = new EmbedBuilder()
+        embed
             .setColor(Colors.Green)
             .setDescription(
                 `Great! I have set the channel <#${channel.id}> as an interchat channel, You can now receive messages from other Discord guilds that have also joined the server \`${server}\`.`
