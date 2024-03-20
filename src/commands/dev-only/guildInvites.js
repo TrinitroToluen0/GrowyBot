@@ -37,7 +37,9 @@ module.exports = {
 
         if (invites.size > 0) {
             embed.setTitle(`Invites of the guild ${guild.name}`);
-            embed.setDescription(invites.map((invite) => `${invitation} ${invite.url} by **${invite.inviter.username}** (${invite.uses} uses)`).join("\n"));
+            let description = invites.map((invite) => `${invitation} ${invite.url} by **${invite.inviter.username}** (${invite.uses} uses)`).join("\n");
+            description = description.substring(0, 4096);
+            embed.setDescription(description);
         } else {
             embed.setDescription("There is no invites to get.");
         }
