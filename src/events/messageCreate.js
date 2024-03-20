@@ -6,13 +6,17 @@ const logger = require("../utils/logger.js");
 module.exports = {
     name: Events.MessageCreate,
     async execute(client, message) {
-        if (message.interaction?.commandName === "bump" && message.author.id === "302050872383242240" && message.embeds[0]?.data.description.includes("Bump done")) {
+        const guildConfig = await client.getGuildConfig(message.guild.id);
+        if (
+            message.interaction?.commandName === "bump" &&
+            message.author.id === "302050872383242240" &&
+            message.embeds[0]?.data.description.includes("Bump done") &&
+            guildConfig.bumpReminderEnabled
+        ) {
             message.client.emit(CustomEvents.Bump, message.interaction.user, message.guild);
         }
 
         if (message.author.bot) return;
-
-        const guildConfig = await client.getGuildConfig(message.guild.id);
         const interchatChannels = guildConfig.interchatChannels.map((channel) => channel.id);
 
         if (interchatChannels.includes(message.channel.id)) {
