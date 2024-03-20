@@ -68,12 +68,12 @@ const bumpReminderHelper = async (interaction) => {
     return `# ⏰ Bump reminder category
 
 ## :question: How it works?
-When users bump your server executing the comand </bump:947088344167366698>, a timer will be set and 2 hours later, I will remember your users that it's time to bump again. 
+When users bump your server using the comand </bump:947088344167366698>, a timer will be set and 2 hours later, I will remember your users that it's time to bump again. 
 Also, you can specify how much money your users can win for bumping your server.
 
 ## :question: What is a "bump"? What is Disboard?
 Disboard is a website to grow your Discord server, there you can submit your server and invite the Disboard bot.  When a user "bumps" your server, 
-it means that they executed the command  </bump:947088344167366698>, which will bump your server to the top of the Disboard website, and therefore, you will gain new 
+it means that they used the command  </bump:947088344167366698>, which will bump your server to the top of the Disboard website, and therefore, you will gain new 
 members, a bump can be done every 2 hours.
 
 ## ${commands} Available commands
