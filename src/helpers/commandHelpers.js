@@ -1,5 +1,5 @@
 const { nitro, goldCoin, commands } = require("../utils/emojis.json");
-const { SUPPORT_SERVER_INVITE, CLIENT_ID } = require("../config.js");
+const { SUPPORT_SERVER_INVITE } = require("../config.js");
 
 const homeHelper = async (interaction) => {
     return `# ❓ Need help? This is the place! 
@@ -7,7 +7,7 @@ const homeHelper = async (interaction) => {
 Start by selecting the category you want to get help for.
 
 ## 🔗 The nexus
-[Support server](${SUPPORT_SERVER_INVITE}) • [Invite me](https://discord.com/oauth2/authorize?client_id=1195233538115637308&permissions=537266233&scope=bot) • [Vote for Us!](https://top.gg/bot/${CLIENT_ID}/vote)
+[Support server](${SUPPORT_SERVER_INVITE}) • [Invite me](https://discord.com/oauth2/authorize?client_id=${interaction.client.user.id}&permissions=537266233&scope=bot) • [Vote for me!](https://top.gg/bot/${interaction.client.user.id}/vote)
 
     `;
 };
