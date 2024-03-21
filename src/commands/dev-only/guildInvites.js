@@ -38,8 +38,12 @@ module.exports = {
         if (invites.size > 0) {
             embed.setTitle(`Invites of the guild ${guild.name}`);
             const sortedInvites = invites.sort((a, b) => b.uses - a.uses);
-            let description = sortedInvites.map((invite) => `${invitation} ${invite.url} by **${invite.inviter.username}** (${invite.uses} uses)`).join("\n");
-            description = description.substring(0, 4096);
+            let description = "";
+            sortedInvites.forEach((invite) => {
+                let line = `${invitation} ${invite.url} by **${invite.inviter.username}** (${invite.uses} uses)\n`;
+                if (description.length + line.length > 4096) return;
+                description += line;
+            });
             embed.setDescription(description);
         } else {
             embed.setDescription("There is no invites to get.");
