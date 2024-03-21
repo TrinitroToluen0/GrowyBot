@@ -1,4 +1,6 @@
 const colors = {
+    invisibleEmbed: "#2b2d31",
+
     reset: "\x1b[0m",
     bright: "\x1b[1m",
     dim: "\x1b[2m",
