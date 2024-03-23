@@ -8,7 +8,7 @@ module.exports = {
     name: Events.GuildMemberRemove,
     async execute(client, member) {
         try {
-            if (member.bot) return;
+            if (member.user.id === client.user.id) return;
             const guildConfig = await client.getGuildConfig(member.guild.id);
             const inviterId = await getInviterId(member);
             await farewellMember(member, inviterId);
