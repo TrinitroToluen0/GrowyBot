@@ -1,25 +1,19 @@
 const { Events } = require("discord.js");
-const User = require("../models/UserModel");
-const logger = require("../utils/logger");
-const farewellMember = require("../helpers/farewellMember.js");
+const logger = require("../utils/logger.js");
 const getInviterId = require("../helpers/getInviterId.js");
+const farewellMember = require("../helpers/farewellMember.js");
+const unrewardInviter = require("../helpers/unrewardInviter.js");
 
 module.exports = {
     name: Events.GuildMemberRemove,
     async execute(client, member) {
         try {
-            if (member.user.id === client.user.id) return;
-            const guildConfig = await client.getGuildConfig(member.guild.id);
+            if(member.user.id === client.user.id) return;
             const inviterId = await getInviterId(member);
+            await unrewardInviter(inviterId, member.guild);
             await farewellMember(member, inviterId);
-            let inviter = await User.findOne({ userId: inviterId, guildId: member.guild.id });
-            if (inviter) {
-                inviter.invitations = Math.max(0, inviter.invitations - 1);
-                inviter.money -= guildConfig.invitationReward;
-                await inviter.save();
-            }
         } catch (error) {
-            logger.error(`OnGuildMemberRemove failed: `, error);
+            logger.error(`OnGuildMemberAdd failed: `, error);
         }
     },
 };

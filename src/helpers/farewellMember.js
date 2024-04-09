@@ -6,7 +6,11 @@ async function farewellMember(member, inviterId) {
     const { client } = member;
     const guildConfig = await client.getGuildConfig(member.guild.id);
 
-    if (!guildConfig.welcomeChannel) {
+    if (!guildConfig.farewellEnabled) {
+        return false;
+    }
+
+    if (!guildConfig.farewellChannel) {
         return false;
     }
 

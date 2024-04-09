@@ -18,6 +18,12 @@ const guildSchema = new mongoose.Schema(
             required: true,
             default: false,
         },
+        farewellChannel: String,
+        farewellEnabled: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
         invitationReward: {
             type: Number,
             required: true,

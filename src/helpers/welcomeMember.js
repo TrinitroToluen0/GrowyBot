@@ -6,6 +6,10 @@ async function welcomeMember(member, inviterId) {
     const { client } = member;
     const guildConfig = await client.getGuildConfig(member.guild.id);
 
+    if(!guildConfig.welcomeEnabled) {
+        return false;
+    }
+
     if (!guildConfig.welcomeChannel) {
         return false;
     }

@@ -8,7 +8,7 @@ module.exports = {
     name: Events.GuildMemberAdd,
     async execute(client, member) {
         try {
-            if (member.bot) return;
+            if (member.user.id === client.user.id) return;
             const inviterId = await getInviterId(member);
             await rewardInviter(inviterId, member.guild);
             await welcomeMember(member, inviterId);
