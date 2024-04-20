@@ -17,7 +17,8 @@ async function setBumpReminder(guild) {
         const channel = await guild.channels.fetch(guildConfig.bumpReminderChannel);
 
         // Eliminar el mensaje de timer
-        const channelMessages = await channel.messages.fetch();
+        const bumpThanksChannel = await guild.channels.fetch(guildConfig.bumpThanksChannel);
+        const channelMessages = await bumpThanksChannel.messages.fetch();
         const timerMessage = channelMessages.find((message) => message.embeds[1]?.data.description.includes("You can bump again") && message.author.id === guild.client.user.id);
         if (timerMessage) await timerMessage.edit({ embeds: [timerMessage.embeds[0]] });
 
