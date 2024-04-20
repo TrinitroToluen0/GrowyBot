@@ -1,5 +1,5 @@
 const CustomEvents = {
-    Bump: "bump",
+    Bump: 0,
 };
 
 module.exports = CustomEvents;

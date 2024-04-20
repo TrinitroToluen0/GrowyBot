@@ -28,9 +28,7 @@ module.exports = {
             // Eliminar el mensaje de bump
             const channel = await guild.channels.fetch(guildConfig.bumpReminderChannel);
             const channelMessages = await channel.messages.fetch({ limit: 10 });
-            const bumpMessage = channelMessages.find(
-                (message) => message.embeds[0]?.data.description.includes("Bump the server") && message.author.id === guild.client.user.id
-            );
+            const bumpMessage = channelMessages.find((message) => message.embeds[0]?.data.description.includes("Bump the server") && message.author.id === guild.client.user.id);
             if (bumpMessage) await bumpMessage.delete();
 
             const userEmbed = new EmbedBuilder()
@@ -41,7 +39,8 @@ module.exports = {
 
             const dateEmbed = new EmbedBuilder().setColor(2406327).setDescription(`You can bump again <t:${futureTimestamp}:R>`);
 
-            await channel.send({ embeds: [userEmbed, dateEmbed] });
+            const thankerChannel = await guild.channels.fetch(guildConfig.bumpThankerChannel);
+            if (thankerChannel) await thankerChannel.send({ embeds: [userEmbed, dateEmbed] });
 
             // Programa el próximo bump
             guildConfig.nextBumpReminder = futureBumpDate;

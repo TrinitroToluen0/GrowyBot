@@ -37,6 +37,7 @@ const guildSchema = new mongoose.Schema(
         },
         bumpReminderRole: String,
         bumpReminderChannel: String,
+        bumpThankerChannel: String,
         nextBumpReminder: Date,
         bumpReward: {
             type: Number,
