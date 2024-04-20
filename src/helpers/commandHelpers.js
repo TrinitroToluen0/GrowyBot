@@ -79,7 +79,7 @@ members, a bump can be done every 2 hours.
 ## ${commands} Available commands
 - </bumpreminder-enable:1201445092129517611> Enable the bump reminder module, if the module is disabled, nothing will happen even if disboard is in your server and a user bumps it.
 - </bumpreminder-setchannel:1201445092129517612> Set a channel for the bump reminder module to remind your users when they can bump.
-- </bumpreminder-setthankerchannel:1201445092129517612> Set a channel for the bump reminder module to ublicly thank all of the bumpers in your server.
+- </bumpreminder-setthankerchannel:1231154695716868128> Set a channel for the bump reminder module to publicly thank all of the bumpers in your server.
 - </bumpreminder-setreward:1201445092129517613> Set the amount of money that your bumpers will get for bumping your server.
 - </bumpreminder-setrole:1202771703688863834> Sets a role to mention when reminding your users to bump your server.
 
