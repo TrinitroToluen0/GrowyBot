@@ -47,7 +47,7 @@ module.exports = {
             }
 
             guilds.forEach(async (guild) => {
-                const channel = await interaction.client.channels.fetch(guild.interchatChannels.find((ch) => ch.id.toString() === interaction.targetMessage.channel.id));
+                const channel = await interaction.client.channels.fetch(guild.interchatChannels.find((ch) => ch.id === interaction.targetMessage.channel.id));
                 const webhooks = await channel.fetchWebhooks();
                 const webhook = webhooks.find((hook) => hook.owner.id === interaction.client.user.id);
 
