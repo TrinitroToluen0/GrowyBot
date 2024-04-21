@@ -27,7 +27,7 @@ module.exports = {
 
             // Eliminar el mensaje de bump
             const channel = await guild.channels.fetch(guildConfig.bumpReminderChannel);
-            const channelMessages = await channel.messages.fetch({ limit: 10 });
+            const channelMessages = await channel.messages.fetch();
             const bumpMessage = channelMessages.find((message) => message.embeds[0]?.data.description.includes("Bump the server") && message.author.id === guild.client.user.id);
             if (bumpMessage) await bumpMessage.delete();
 
