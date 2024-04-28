@@ -10,6 +10,7 @@ const emojis = require("../../utils/emojis.json");
 const { onBump } = require("../../helpers/bumpReminder.js");
 const CustomEvents = require("../../helpers/customEvents.js");
 const { goldCoin, shop } = require("../../utils/emojis.json");
+const Guild = require("../../models/GuildModel.js");
 
 module.exports = {
     category: "dev-only",
@@ -18,8 +19,6 @@ module.exports = {
     data: new SlashCommandBuilder().setName("test").setDescription("test").setDMPermission(false).setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
     async execute(interaction) {
-        await interaction.deferReply();
-
         // interaction.client.emit(CustomEvents.Bump, await client.users.fetch("528408424728363029"), interaction.guild);
         // const embed = new EmbedBuilder()
         //     .setTitle("DISBOARD: The Public Server List")
@@ -27,10 +26,23 @@ module.exports = {
         //     .setColor(2406327)
         //     .setURL("https://disboard.org/")
         //     .setImage("https://disboard.org/images/bot-command-image-bump.png");
-        const guild = await interaction.client.guilds.fetch("887382682026266674");
-        const member = await guild.members.fetch("276060004262477825");
-        await member.kick();
-        const embed = new EmbedBuilder().setTitle("Done!");
-        interaction.editReply({ embeds: [embed] });
+
+        // const guild = await interaction.client.guilds.fetch("887382682026266674");
+        // const member = await guild.members.fetch("276060004262477825");
+        // await member.kick();
+        async function updateGuilds() {
+            try {
+                const docs = await Guild.find({});
+                for (let doc of docs) {
+                    doc.bumpThanksChannel = doc.bumpReminderChannel;
+                    await doc.save();
+                    console.log(`Saved ${doc.guildId}`)
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        updateGuilds();
     },
 };

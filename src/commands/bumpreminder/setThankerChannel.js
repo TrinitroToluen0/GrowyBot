@@ -4,7 +4,7 @@ module.exports = {
     category: "bumpreminder",
     cooldown: 5,
     data: new SlashCommandBuilder()
-        .setName("bumpreminder-setthankerchannel")
+        .setName("bumpreminder-setthankschannel")
         .setDescription("Sets a channel to thank the users who bumped your server.")
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator)
@@ -26,15 +26,15 @@ module.exports = {
             return interaction.reply({ embeds: [embed] });
         }
 
-        if (channel.id === guildConfig.bumpThankerChannel) {
-            const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`The bump thanker channel is already <#${channel.id}>.`);
+        if (channel.id === guildConfig.bumpThanksChannel) {
+            const embed = new EmbedBuilder().setColor(Colors.Blue).setDescription(`The bump thanks channel is already <#${channel.id}>.`);
             return await interaction.reply({ embeds: [embed] });
         }
 
-        guildConfig.bumpThankerChannel = channel.id;
+        guildConfig.bumpThanksChannel = channel.id;
         await guildConfig.save();
 
-        const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The bump thanker channel has been set to <#${guildConfig.bumpThankerChannel}>.`);
+        const embed = new EmbedBuilder().setColor(Colors.Green).setDescription(`The bump thanks channel has been set to <#${guildConfig.bumpThanksChannel}>.`);
         await interaction.reply({ embeds: [embed] });
     },
 };

@@ -39,8 +39,8 @@ module.exports = {
 
             const dateEmbed = new EmbedBuilder().setColor(2406327).setDescription(`You can bump again <t:${futureTimestamp}:R>`);
 
-            const thankerChannel = await guild.channels.fetch(guildConfig.bumpThankerChannel);
-            if (thankerChannel) await thankerChannel.send({ embeds: [userEmbed, dateEmbed] });
+            const thanksChannel = await guild.channels.fetch(guildConfig.bumpThanksChannel);
+            if (thanksChannel) await thanksChannel.send({ embeds: [userEmbed, dateEmbed] });
 
             // Programa el próximo bump
             guildConfig.nextBumpReminder = futureBumpDate;
