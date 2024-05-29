@@ -28,8 +28,8 @@ module.exports = {
 
         const itemCount = await Shop.countDocuments({ guildId: interaction.guild.id });
 
-        // Verifica si ya hay 10 artículos
-        if (itemCount >= 10) {
+        // Verifica si ya hay 30 artículos
+        if (itemCount >= 30) {
             embed.setDescription("The shop is full. You can't add more items.");
             interaction.reply({ embeds: [embed], ephemeral: true });
             return;
