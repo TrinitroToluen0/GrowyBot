@@ -28,12 +28,15 @@ module.exports = {
         }
 
         try {
-            const guilds = await Guild.find({ "interchatChannels.id": interaction.targetMessage.channelId, botPresent: true });
+            const guild = await Guild.find({ "interchatChannels.id": interaction.targetMessage.channelId, botPresent: true });
 
-            if (guilds.length === 0) {
+            if (!guild) {
                 const embed = new EmbedBuilder().setColor(Colors.Red).setDescription("Guild not found or bot not present in guild.");
                 return await interaction.reply({ embeds: [embed], ephemeral: true });
             }
+
+            const server = guild.interchatChannels.find((ch) => ch.id === interaction.targetMessage.channelId).server
+            const guilds = await Guild.find({ "interchatChannels.server": interaction.targetMessage.channelId, botPresent: true });
 
             let description = `${trash} This message was deleted by its author.`;
 
@@ -47,7 +50,7 @@ module.exports = {
             }
 
             guilds.forEach(async (guild) => {
-                const channel = await interaction.client.channels.fetch(guild.interchatChannels.find((ch) => ch.id === interaction.targetMessage.channel.id));
+                const channel = await interaction.client.channels.fetch(guild.interchatChannels.find((ch) => ch.server === server));
                 const webhooks = await channel.fetchWebhooks();
                 const webhook = webhooks.find((hook) => hook.owner.id === interaction.client.user.id);
 
